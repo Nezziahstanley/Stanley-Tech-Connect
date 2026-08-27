@@ -18,7 +18,7 @@ $year = date("Y");
     <title><?php echo $page_title; ?></title>
     
     <!-- Link to CSS file (will be created on Day 4) -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
     
     <!-- Favicon placeholder -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -183,7 +183,7 @@ $year = date("Y");
     </footer>
 
     <!-- Link to JavaScript file (will be created on Day 8) -->
-    <script src="js/scripts.js"></script>
+    <script src="js/script.js"></script>
     
     <!-- Day 1 status tracker (visible only during development) -->
     <div style="position: fixed; bottom: 10px; right: 10px; background: #2ecc71; color: white; padding: 8px 15px; border-radius: 20px; font-size: 12px; z-index: 9999;">
