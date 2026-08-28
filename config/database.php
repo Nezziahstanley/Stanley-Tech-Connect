@@ -1,5 +1,5 @@
 <?php
-// Database configuration file
+// Database configuration
 // Will be fully implemented on Day 18
 
 define('DB_HOST', 'localhost');
