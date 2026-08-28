@@ -1,0 +1,25 @@
+# XAMPP/Development files
+*.log
+*.sql
+*.sqlite
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configuration files with sensitive data
+config/database.php
+.env
+
+# Backup files
+*.bak
+*.backup
+*.old
