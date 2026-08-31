@@ -1,6 +1,6 @@
 // ========================================
 // STANLEY TECH CONNECT - COMPLETE JAVASCRIPT
-// Days 1-3: Foundation, Interactivity & Forms
+// Days 1-5: Foundation, Forms, Interactivity & Mobile Menu
 // ========================================
 
 // Global variable for form state
@@ -11,7 +11,7 @@ const formState = {};
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Stanley Tech Connect - JavaScript Loaded!');
-    console.log('Day 3: Forms & Interactivity Complete ✅');
+    console.log('Day 5: Reusable Header & Footer Complete ✅');
     
     // Initialize all components
     initMobileMenu();
@@ -22,66 +22,95 @@ document.addEventListener('DOMContentLoaded', function() {
     initRealTimeValidation();
     initSmoothScroll();
     initPageAnimations();
+    initFormAutoSave();
 });
 
 // ========================================
-// MOBILE MENU
+// MOBILE MENU (Day 5 Enhancement)
 // ========================================
 function initMobileMenu() {
-    // Create mobile toggle button if it doesn't exist
-    const header = document.querySelector('.header-container');
-    if (header) {
-        // Check if toggle already exists
-        let toggle = header.querySelector('.mobile-toggle');
-        if (!toggle) {
-            toggle = document.createElement('button');
-            toggle.className = 'mobile-toggle';
-            toggle.setAttribute('aria-label', 'Toggle menu');
-            toggle.innerHTML = `
-                <span></span>
-                <span></span>
-                <span></span>
-            `;
-            header.appendChild(toggle);
-            
-            // Style the header to support mobile toggle
-            header.style.position = 'relative';
-        }
-        
-        const nav = header.querySelector('nav');
-        if (nav) {
-            // Toggle menu on click
-            toggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                nav.classList.toggle('active');
-                this.classList.toggle('active');
-                
-                // Toggle aria-expanded
-                const isExpanded = nav.classList.contains('active');
-                this.setAttribute('aria-expanded', isExpanded);
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!header.contains(e.target) && nav.classList.contains('active')) {
-                    nav.classList.remove('active');
-                    toggle.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
-                }
-            });
-            
-            // Close menu when clicking a link
-            nav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        nav.classList.remove('active');
-                        toggle.classList.remove('active');
-                        toggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
-        }
+    const toggle = document.getElementById('mobileToggle');
+    const nav = document.getElementById('mainNav');
+    
+    if (!toggle || !nav) {
+        // If elements don't exist, try to create them
+        createMobileMenu();
+        return;
     }
+    
+    // Toggle menu on button click
+    toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        nav.classList.toggle('active');
+        this.classList.toggle('active');
+        const isExpanded = nav.classList.contains('active');
+        this.setAttribute('aria-expanded', isExpanded);
+        
+        // Update button text for accessibility
+        this.innerHTML = isExpanded 
+            ? '<span></span><span></span><span></span>' 
+            : '<span></span><span></span><span></span>';
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        const header = document.querySelector('.header-container');
+        if (header && !header.contains(e.target) && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+    
+    // Close menu when clicking a link (mobile only)
+    nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                toggle.classList.remove('active');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+    
+    // Handle window resize - close menu on desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+// ========================================
+// CREATE MOBILE MENU (Fallback)
+// ========================================
+function createMobileMenu() {
+    const header = document.querySelector('.header-container');
+    if (!header) return;
+    
+    // Check if nav exists
+    let nav = document.getElementById('mainNav');
+    if (!nav) {
+        nav = document.querySelector('nav');
+        if (nav) nav.id = 'mainNav';
+    }
+    
+    // Check if toggle exists
+    let toggle = document.getElementById('mobileToggle');
+    if (!toggle) {
+        toggle = document.createElement('button');
+        toggle.id = 'mobileToggle';
+        toggle.className = 'mobile-toggle';
+        toggle.setAttribute('aria-label', 'Toggle menu');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '<span></span><span></span><span></span>';
+        header.appendChild(toggle);
+    }
+    
+    // Re-run mobile menu init
+    initMobileMenu();
 }
 
 // ========================================
@@ -162,6 +191,12 @@ function initRegistrationForm() {
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
+            
+            // Scroll to error summary
+            const summary = this.querySelector('.form-error-summary');
+            if (summary) {
+                summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     });
 }
@@ -201,6 +236,12 @@ function initLoginForm() {
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
+            
+            // Scroll to error summary
+            const summary = this.querySelector('.form-error-summary');
+            if (summary) {
+                summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     });
 }
@@ -260,6 +301,12 @@ function initContactForm() {
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
+            
+            // Scroll to error summary
+            const summary = this.querySelector('.form-error-summary');
+            if (summary) {
+                summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     });
 }
@@ -270,7 +317,8 @@ function initContactForm() {
 function initPasswordToggles() {
     // Find all password toggle buttons
     document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
             const input = this.closest('.input-with-icon').querySelector('input');
             if (!input) return;
             
@@ -291,7 +339,8 @@ function initPasswordToggles() {
         const field = document.getElementById(fieldId);
         if (!field) return;
         
-        const button = field.closest('.input-with-icon')?.querySelector('.toggle-password');
+        const formGroup = field.closest('.form-group') || field.parentElement;
+        const button = formGroup.querySelector('.toggle-password');
         
         if (field.type === 'password') {
             field.type = 'text';
@@ -319,13 +368,17 @@ function initRealTimeValidation() {
         // Password strength indicator
         const passwordField = document.getElementById('password');
         if (passwordField) {
+            const strengthDiv = document.getElementById('password-strength');
+            
             passwordField.addEventListener('input', function() {
                 const strength = checkPasswordStrength(this.value);
-                const indicator = document.getElementById('password-strength');
                 
-                if (indicator) {
-                    const strengthText = indicator.querySelector('.strength-text');
-                    const strengthBar = indicator.querySelector('.strength-bar');
+                if (strengthDiv) {
+                    // Show the strength indicator
+                    strengthDiv.style.display = 'block';
+                    
+                    const strengthText = strengthDiv.querySelector('.strength-text');
+                    const strengthBar = strengthDiv.querySelector('.strength-bar');
                     
                     if (strengthText) {
                         strengthText.textContent = strength.text;
@@ -340,6 +393,13 @@ function initRealTimeValidation() {
                     }
                 }
             });
+            
+            // Hide strength indicator when empty
+            passwordField.addEventListener('blur', function() {
+                if (this.value.length === 0 && strengthDiv) {
+                    strengthDiv.style.display = 'none';
+                }
+            });
         }
         
         // Password match check in real-time
@@ -352,14 +412,18 @@ function initRealTimeValidation() {
                 if (confirm.length > 0) {
                     if (password !== confirm) {
                         this.style.borderColor = '#e74c3c';
+                        this.classList.add('error');
                         showFieldError('confirm_password', 'Passwords do not match');
                     } else {
                         this.style.borderColor = '#2ecc71';
+                        this.classList.add('success');
+                        this.classList.remove('error');
                         const error = this.closest('.form-group').querySelector('.field-error');
                         if (error) error.remove();
                     }
                 } else {
                     this.style.borderColor = '#ddd';
+                    this.classList.remove('error', 'success');
                     const error = this.closest('.form-group').querySelector('.field-error');
                     if (error) error.remove();
                 }
@@ -373,9 +437,39 @@ function initRealTimeValidation() {
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (this.value.length > 0 && !emailPattern.test(this.value)) {
                     this.style.borderColor = '#e74c3c';
+                    this.classList.add('error');
                     showFieldError('email', 'Please enter a valid email address');
-                } else {
+                } else if (this.value.length > 0) {
                     this.style.borderColor = '#2ecc71';
+                    this.classList.add('success');
+                    this.classList.remove('error');
+                    const error = this.closest('.form-group').querySelector('.field-error');
+                    if (error) error.remove();
+                }
+            });
+            
+            // Clear validation on focus
+            emailField.addEventListener('focus', function() {
+                this.style.borderColor = '#ddd';
+                this.classList.remove('error', 'success');
+                const error = this.closest('.form-group').querySelector('.field-error');
+                if (error) error.remove();
+            });
+        }
+        
+        // Phone format check in real-time
+        const phoneField = document.getElementById('phone');
+        if (phoneField) {
+            phoneField.addEventListener('blur', function() {
+                const phonePattern = /^[0-9]{10,15}$/;
+                if (this.value.length > 0 && !phonePattern.test(this.value)) {
+                    this.style.borderColor = '#e74c3c';
+                    this.classList.add('error');
+                    showFieldError('phone', 'Please enter a valid phone number (10-15 digits)');
+                } else if (this.value.length > 0) {
+                    this.style.borderColor = '#2ecc71';
+                    this.classList.add('success');
+                    this.classList.remove('error');
                     const error = this.closest('.form-group').querySelector('.field-error');
                     if (error) error.remove();
                 }
@@ -402,11 +496,11 @@ function checkPasswordStrength(password) {
     if (/[^a-zA-Z0-9]/.test(password)) score++;
     
     if (score <= 2) {
-        return { value: 1, text: 'Weak', color: '#e74c3c', class: 'weak' };
+        return { value: 1, text: 'Weak - Add more characters and variety', color: '#e74c3c', class: 'weak' };
     } else if (score <= 4) {
-        return { value: 2, text: 'Medium', color: '#ffc107', class: 'medium' };
+        return { value: 2, text: 'Medium - Add uppercase and special characters', color: '#ffc107', class: 'medium' };
     } else {
-        return { value: 3, text: 'Strong', color: '#2ecc71', class: 'strong' };
+        return { value: 3, text: 'Strong - Great password!', color: '#2ecc71', class: 'strong' };
     }
 }
 
@@ -421,9 +515,13 @@ function showFieldError(fieldId, message) {
     
     field.style.borderColor = '#e74c3c';
     field.classList.add('error');
+    field.classList.remove('success');
+    
+    // Find the form group
+    const formGroup = field.closest('.form-group') || field.parentElement;
+    if (!formGroup) return;
     
     // Check if error message already exists
-    const formGroup = field.closest('.form-group') || field.parentElement;
     let errorMsg = formGroup.querySelector('.field-error');
     if (!errorMsg) {
         errorMsg = document.createElement('small');
@@ -431,6 +529,23 @@ function showFieldError(fieldId, message) {
         formGroup.appendChild(errorMsg);
     }
     errorMsg.textContent = message;
+}
+
+// Show field success
+function showFieldSuccess(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    
+    field.style.borderColor = '#2ecc71';
+    field.classList.add('success');
+    field.classList.remove('error');
+    
+    // Remove error message
+    const formGroup = field.closest('.form-group') || field.parentElement;
+    if (formGroup) {
+        const errorMsg = formGroup.querySelector('.field-error');
+        if (errorMsg) errorMsg.remove();
+    }
 }
 
 // Show form error summary
@@ -505,8 +620,11 @@ function initSmoothScroll() {
 function initPageAnimations() {
     // Add fade-in-up animation to cards
     document.querySelectorAll('.card, .service-card, .course-card').forEach((card, index) => {
-        card.classList.add('fade-in-up');
-        card.style.animationDelay = `${(index % 4) * 0.1}s`;
+        // Only add animation if not already animated
+        if (!card.classList.contains('fade-in-up') && !card.classList.contains('slide-in-left') && !card.classList.contains('slide-in-right')) {
+            card.classList.add('fade-in-up');
+            card.style.animationDelay = `${(index % 4) * 0.1}s`;
+        }
     });
     
     // Intersection Observer for scroll animations
@@ -523,8 +641,11 @@ function initPageAnimations() {
             rootMargin: '0px 0px -50px 0px'
         });
         
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .zoom-in').forEach(el => {
+            // Only observe elements that are not visible
+            if (el.style.opacity !== '1') {
+                observer.observe(el);
+            }
         });
     }
 }
@@ -544,7 +665,7 @@ function initFormAutoSave() {
                 const data = JSON.parse(savedData);
                 Object.keys(data).forEach(key => {
                     const field = form.querySelector(`[name="${key}"]`);
-                    if (field) {
+                    if (field && !field.value) {
                         field.value = data[key];
                     }
                 });
@@ -557,7 +678,7 @@ function initFormAutoSave() {
         form.addEventListener('input', function() {
             const data = {};
             this.querySelectorAll('input, textarea, select').forEach(field => {
-                if (field.name && !field.name.startsWith('_')) {
+                if (field.name && !field.name.startsWith('_') && field.type !== 'password' && field.type !== 'checkbox') {
                     data[field.name] = field.value;
                 }
             });
@@ -594,14 +715,39 @@ function resetForm(formId) {
     if (form) {
         form.reset();
         clearFormErrors(form);
+        // Clear auto-save data
+        localStorage.removeItem(formId || 'form-data');
     }
+}
+
+// ========================================
+// UTILITY: Scroll to Top
+// ========================================
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// ========================================
+// UTILITY: Get URL Parameters
+// ========================================
+function getUrlParams() {
+    const params = {};
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    for (const [key, value] of urlParams) {
+        params[key] = value;
+    }
+    return params;
 }
 
 // ========================================
 // CONSOLE HELPERS (For testing)
 // ========================================
 console.log('%c Stanley Tech Connect ', 'background: #00d2ff; color: #1a1a2e; font-size: 18px; font-weight: bold; padding: 8px 16px; border-radius: 4px;');
-console.log('%c Day 3: Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
+console.log('%c Day 5: Reusable Header & Footer Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
 
 // Expose helper functions globally for debugging
 window.STC = {
@@ -609,5 +755,9 @@ window.STC = {
     resetForm,
     clearFormErrors,
     checkPasswordStrength,
-    togglePasswordVisibility: window.togglePasswordVisibility
+    scrollToTop,
+    getUrlParams,
+    togglePasswordVisibility: window.togglePasswordVisibility,
+    showFieldError,
+    showFieldSuccess
 };
