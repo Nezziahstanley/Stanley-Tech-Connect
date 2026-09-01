@@ -1,17 +1,11 @@
 // ========================================
 // STANLEY TECH CONNECT - COMPLETE JAVASCRIPT
-// Days 1-5: Foundation, Forms, Interactivity & Mobile Menu
+// Day 6: Responsive Design - Mobile Menu Enhancement
 // ========================================
 
-// Global variable for form state
-const formState = {};
-
-// ========================================
-// DOCUMENT READY - Initialization
-// ========================================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Stanley Tech Connect - JavaScript Loaded!');
-    console.log('Day 5: Reusable Header & Footer Complete ✅');
+    console.log('Day 6: Responsive Design Complete ✅');
     
     // Initialize all components
     initMobileMenu();
@@ -22,95 +16,74 @@ document.addEventListener('DOMContentLoaded', function() {
     initRealTimeValidation();
     initSmoothScroll();
     initPageAnimations();
-    initFormAutoSave();
+    initResponsiveImages();
 });
 
 // ========================================
-// MOBILE MENU (Day 5 Enhancement)
+// MOBILE MENU (Enhanced for Day 6)
 // ========================================
 function initMobileMenu() {
     const toggle = document.getElementById('mobileToggle');
     const nav = document.getElementById('mainNav');
     
-    if (!toggle || !nav) {
-        // If elements don't exist, try to create them
-        createMobileMenu();
-        return;
-    }
+    if (!toggle || !nav) return;
     
-    // Toggle menu on button click
+    // Toggle menu
     toggle.addEventListener('click', function(e) {
         e.stopPropagation();
         nav.classList.toggle('active');
         this.classList.toggle('active');
         const isExpanded = nav.classList.contains('active');
         this.setAttribute('aria-expanded', isExpanded);
-        
-        // Update button text for accessibility
-        this.innerHTML = isExpanded 
-            ? '<span></span><span></span><span></span>' 
-            : '<span></span><span></span><span></span>';
+        document.body.style.overflow = isExpanded ? 'hidden' : '';
     });
     
     // Close menu when clicking outside
     document.addEventListener('click', function(e) {
         const header = document.querySelector('.header-container');
         if (header && !header.contains(e.target) && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            toggle.classList.remove('active');
-            toggle.setAttribute('aria-expanded', 'false');
+            closeMenu();
         }
     });
     
-    // Close menu when clicking a link (mobile only)
+    // Close menu on resize to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && nav.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+    
+    // Close menu when clicking a link
     nav.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function() {
-            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                toggle.classList.remove('active');
-                toggle.setAttribute('aria-expanded', 'false');
+            if (window.innerWidth <= 768) {
+                closeMenu();
             }
         });
     });
     
-    // Handle window resize - close menu on desktop
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && nav.classList.contains('active')) {
-            nav.classList.remove('active');
-            toggle.classList.remove('active');
-            toggle.setAttribute('aria-expanded', 'false');
-        }
-    });
+    function closeMenu() {
+        nav.classList.remove('active');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
 }
 
 // ========================================
-// CREATE MOBILE MENU (Fallback)
+// RESPONSIVE IMAGES (Day 6 Enhancement)
 // ========================================
-function createMobileMenu() {
-    const header = document.querySelector('.header-container');
-    if (!header) return;
-    
-    // Check if nav exists
-    let nav = document.getElementById('mainNav');
-    if (!nav) {
-        nav = document.querySelector('nav');
-        if (nav) nav.id = 'mainNav';
-    }
-    
-    // Check if toggle exists
-    let toggle = document.getElementById('mobileToggle');
-    if (!toggle) {
-        toggle = document.createElement('button');
-        toggle.id = 'mobileToggle';
-        toggle.className = 'mobile-toggle';
-        toggle.setAttribute('aria-label', 'Toggle menu');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.innerHTML = '<span></span><span></span><span></span>';
-        header.appendChild(toggle);
-    }
-    
-    // Re-run mobile menu init
-    initMobileMenu();
+function initResponsiveImages() {
+    // Add loading="lazy" to all images for performance
+    document.querySelectorAll('img').forEach(img => {
+        if (!img.hasAttribute('loading')) {
+            img.setAttribute('loading', 'lazy');
+        }
+        // Add alt text if missing
+        if (!img.hasAttribute('alt') || img.getAttribute('alt') === '') {
+            img.setAttribute('alt', 'Stanley Tech Connect');
+        }
+    });
 }
 
 // ========================================
@@ -124,7 +97,6 @@ function initRegistrationForm() {
         let isValid = true;
         const errors = [];
         
-        // Get form values
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const phone = document.getElementById('phone').value.trim();
@@ -132,21 +104,14 @@ function initRegistrationForm() {
         const confirmPassword = document.getElementById('confirm_password').value;
         const terms = document.getElementById('terms');
         
-        // Clear previous errors
         clearFormErrors(this);
         
-        // Validate name
         if (name.length < 2) {
             errors.push('Name must be at least 2 characters');
             showFieldError('name', 'Name must be at least 2 characters');
             isValid = false;
-        } else if (name.length > 50) {
-            errors.push('Name must be less than 50 characters');
-            showFieldError('name', 'Name must be less than 50 characters');
-            isValid = false;
         }
         
-        // Validate email
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             errors.push('Please enter a valid email address');
@@ -154,7 +119,6 @@ function initRegistrationForm() {
             isValid = false;
         }
         
-        // Validate phone
         const phonePattern = /^[0-9]{10,15}$/;
         if (!phonePattern.test(phone)) {
             errors.push('Please enter a valid phone number (10-15 digits)');
@@ -162,37 +126,26 @@ function initRegistrationForm() {
             isValid = false;
         }
         
-        // Validate password
         if (password.length < 8) {
             errors.push('Password must be at least 8 characters');
             showFieldError('password', 'Password must be at least 8 characters');
             isValid = false;
-        } else if (password.length > 50) {
-            errors.push('Password must be less than 50 characters');
-            showFieldError('password', 'Password must be less than 50 characters');
-            isValid = false;
         }
         
-        // Validate confirm password
         if (password !== confirmPassword) {
             errors.push('Passwords do not match');
             showFieldError('confirm_password', 'Passwords do not match');
             isValid = false;
         }
         
-        // Validate terms
         if (!terms || !terms.checked) {
             errors.push('You must agree to the terms and conditions');
-            showFieldError('terms', 'Please agree to the terms');
             isValid = false;
         }
         
-        // If not valid, prevent submission
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
-            
-            // Scroll to error summary
             const summary = this.querySelector('.form-error-summary');
             if (summary) {
                 summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -215,10 +168,8 @@ function initLoginForm() {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
         
-        // Clear previous errors
         clearFormErrors(this);
         
-        // Validate email
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             errors.push('Please enter a valid email address');
@@ -226,7 +177,6 @@ function initLoginForm() {
             isValid = false;
         }
         
-        // Validate password
         if (password.length < 8) {
             errors.push('Password must be at least 8 characters');
             showFieldError('password', 'Password must be at least 8 characters');
@@ -236,8 +186,6 @@ function initLoginForm() {
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
-            
-            // Scroll to error summary
             const summary = this.querySelector('.form-error-summary');
             if (summary) {
                 summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -262,17 +210,14 @@ function initContactForm() {
         const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
         
-        // Clear previous errors
         clearFormErrors(this);
         
-        // Validate name
         if (name.length < 2) {
             errors.push('Name must be at least 2 characters');
             showFieldError('name', 'Name must be at least 2 characters');
             isValid = false;
         }
         
-        // Validate email
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
             errors.push('Please enter a valid email address');
@@ -280,29 +225,21 @@ function initContactForm() {
             isValid = false;
         }
         
-        // Validate subject
         if (subject.length < 3) {
             errors.push('Subject must be at least 3 characters');
             showFieldError('subject', 'Subject must be at least 3 characters');
             isValid = false;
         }
         
-        // Validate message
         if (message.length < 10) {
             errors.push('Message must be at least 10 characters');
             showFieldError('message', 'Message must be at least 10 characters');
-            isValid = false;
-        } else if (message.length > 2000) {
-            errors.push('Message must be less than 2000 characters');
-            showFieldError('message', 'Message must be less than 2000 characters');
             isValid = false;
         }
         
         if (!isValid) {
             e.preventDefault();
             showFormErrorSummary(this, errors);
-            
-            // Scroll to error summary
             const summary = this.querySelector('.form-error-summary');
             if (summary) {
                 summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -315,7 +252,6 @@ function initContactForm() {
 // PASSWORD TOGGLE
 // ========================================
 function initPasswordToggles() {
-    // Find all password toggle buttons
     document.querySelectorAll('.toggle-password').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -334,7 +270,6 @@ function initPasswordToggles() {
         });
     });
     
-    // Also handle the togglePasswordVisibility function call from HTML onclick
     window.togglePasswordVisibility = function(fieldId) {
         const field = document.getElementById(fieldId);
         if (!field) return;
@@ -362,10 +297,8 @@ function initPasswordToggles() {
 // REAL-TIME VALIDATION
 // ========================================
 function initRealTimeValidation() {
-    // Registration form real-time validation
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
-        // Password strength indicator
         const passwordField = document.getElementById('password');
         if (passwordField) {
             const strengthDiv = document.getElementById('password-strength');
@@ -374,9 +307,7 @@ function initRealTimeValidation() {
                 const strength = checkPasswordStrength(this.value);
                 
                 if (strengthDiv) {
-                    // Show the strength indicator
                     strengthDiv.style.display = 'block';
-                    
                     const strengthText = strengthDiv.querySelector('.strength-text');
                     const strengthBar = strengthDiv.querySelector('.strength-bar');
                     
@@ -394,7 +325,6 @@ function initRealTimeValidation() {
                 }
             });
             
-            // Hide strength indicator when empty
             passwordField.addEventListener('blur', function() {
                 if (this.value.length === 0 && strengthDiv) {
                     strengthDiv.style.display = 'none';
@@ -402,7 +332,6 @@ function initRealTimeValidation() {
             });
         }
         
-        // Password match check in real-time
         const confirmField = document.getElementById('confirm_password');
         if (confirmField) {
             confirmField.addEventListener('input', function() {
@@ -424,52 +353,6 @@ function initRealTimeValidation() {
                 } else {
                     this.style.borderColor = '#ddd';
                     this.classList.remove('error', 'success');
-                    const error = this.closest('.form-group').querySelector('.field-error');
-                    if (error) error.remove();
-                }
-            });
-        }
-        
-        // Email format check in real-time
-        const emailField = document.getElementById('email');
-        if (emailField) {
-            emailField.addEventListener('blur', function() {
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (this.value.length > 0 && !emailPattern.test(this.value)) {
-                    this.style.borderColor = '#e74c3c';
-                    this.classList.add('error');
-                    showFieldError('email', 'Please enter a valid email address');
-                } else if (this.value.length > 0) {
-                    this.style.borderColor = '#2ecc71';
-                    this.classList.add('success');
-                    this.classList.remove('error');
-                    const error = this.closest('.form-group').querySelector('.field-error');
-                    if (error) error.remove();
-                }
-            });
-            
-            // Clear validation on focus
-            emailField.addEventListener('focus', function() {
-                this.style.borderColor = '#ddd';
-                this.classList.remove('error', 'success');
-                const error = this.closest('.form-group').querySelector('.field-error');
-                if (error) error.remove();
-            });
-        }
-        
-        // Phone format check in real-time
-        const phoneField = document.getElementById('phone');
-        if (phoneField) {
-            phoneField.addEventListener('blur', function() {
-                const phonePattern = /^[0-9]{10,15}$/;
-                if (this.value.length > 0 && !phonePattern.test(this.value)) {
-                    this.style.borderColor = '#e74c3c';
-                    this.classList.add('error');
-                    showFieldError('phone', 'Please enter a valid phone number (10-15 digits)');
-                } else if (this.value.length > 0) {
-                    this.style.borderColor = '#2ecc71';
-                    this.classList.add('success');
-                    this.classList.remove('error');
                     const error = this.closest('.form-group').querySelector('.field-error');
                     if (error) error.remove();
                 }
@@ -507,8 +390,6 @@ function checkPasswordStrength(password) {
 // ========================================
 // FORM HELPER FUNCTIONS
 // ========================================
-
-// Show error message for a specific field
 function showFieldError(fieldId, message) {
     const field = document.getElementById(fieldId);
     if (!field) return;
@@ -517,11 +398,9 @@ function showFieldError(fieldId, message) {
     field.classList.add('error');
     field.classList.remove('success');
     
-    // Find the form group
     const formGroup = field.closest('.form-group') || field.parentElement;
     if (!formGroup) return;
     
-    // Check if error message already exists
     let errorMsg = formGroup.querySelector('.field-error');
     if (!errorMsg) {
         errorMsg = document.createElement('small');
@@ -531,26 +410,7 @@ function showFieldError(fieldId, message) {
     errorMsg.textContent = message;
 }
 
-// Show field success
-function showFieldSuccess(fieldId) {
-    const field = document.getElementById(fieldId);
-    if (!field) return;
-    
-    field.style.borderColor = '#2ecc71';
-    field.classList.add('success');
-    field.classList.remove('error');
-    
-    // Remove error message
-    const formGroup = field.closest('.form-group') || field.parentElement;
-    if (formGroup) {
-        const errorMsg = formGroup.querySelector('.field-error');
-        if (errorMsg) errorMsg.remove();
-    }
-}
-
-// Show form error summary
 function showFormErrorSummary(form, errors) {
-    // Remove existing summary
     const existingSummary = form.querySelector('.form-error-summary');
     if (existingSummary) existingSummary.remove();
     
@@ -566,23 +426,17 @@ function showFormErrorSummary(form, errors) {
     form.prepend(errorDiv);
 }
 
-// Clear all form errors
 function clearFormErrors(form) {
-    // Remove error styles
     form.querySelectorAll('input, textarea, select').forEach(field => {
         field.style.borderColor = '#ddd';
         field.classList.remove('error', 'success');
     });
     
-    // Remove error messages
     form.querySelectorAll('.field-error').forEach(el => el.remove());
-    
-    // Remove error summary
     const summary = form.querySelector('.form-error-summary');
     if (summary) summary.remove();
 }
 
-// Escape HTML to prevent XSS
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
@@ -601,7 +455,7 @@ function initSmoothScroll() {
             const target = document.querySelector(targetId);
             if (target) {
                 e.preventDefault();
-                const headerOffset = 80;
+                const headerOffset = 70;
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
@@ -618,16 +472,13 @@ function initSmoothScroll() {
 // PAGE ANIMATIONS
 // ========================================
 function initPageAnimations() {
-    // Add fade-in-up animation to cards
     document.querySelectorAll('.card, .service-card, .course-card').forEach((card, index) => {
-        // Only add animation if not already animated
-        if (!card.classList.contains('fade-in-up') && !card.classList.contains('slide-in-left') && !card.classList.contains('slide-in-right')) {
+        if (!card.classList.contains('fade-in-up')) {
             card.classList.add('fade-in-up');
             card.style.animationDelay = `${(index % 4) * 0.1}s`;
         }
     });
     
-    // Intersection Observer for scroll animations
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -641,8 +492,7 @@ function initPageAnimations() {
             rootMargin: '0px 0px -50px 0px'
         });
         
-        document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right, .zoom-in').forEach(el => {
-            // Only observe elements that are not visible
+        document.querySelectorAll('.fade-in-up').forEach(el => {
             if (el.style.opacity !== '1') {
                 observer.observe(el);
             }
@@ -651,113 +501,14 @@ function initPageAnimations() {
 }
 
 // ========================================
-// FORM AUTO-SAVE (Local Storage)
-// ========================================
-function initFormAutoSave() {
-    const forms = document.querySelectorAll('form[data-autosave]');
-    forms.forEach(form => {
-        const storageKey = form.id || 'form-data';
-        
-        // Load saved data
-        const savedData = localStorage.getItem(storageKey);
-        if (savedData) {
-            try {
-                const data = JSON.parse(savedData);
-                Object.keys(data).forEach(key => {
-                    const field = form.querySelector(`[name="${key}"]`);
-                    if (field && !field.value) {
-                        field.value = data[key];
-                    }
-                });
-            } catch (e) {
-                console.warn('Failed to load saved form data:', e);
-            }
-        }
-        
-        // Save data on input
-        form.addEventListener('input', function() {
-            const data = {};
-            this.querySelectorAll('input, textarea, select').forEach(field => {
-                if (field.name && !field.name.startsWith('_') && field.type !== 'password' && field.type !== 'checkbox') {
-                    data[field.name] = field.value;
-                }
-            });
-            try {
-                localStorage.setItem(storageKey, JSON.stringify(data));
-            } catch (e) {
-                console.warn('Failed to save form data:', e);
-            }
-        });
-        
-        // Clear saved data on successful submit
-        form.addEventListener('submit', function() {
-            localStorage.removeItem(storageKey);
-        });
-    });
-}
-
-// ========================================
-// UTILITY: Form Field Focus
-// ========================================
-function focusField(fieldId) {
-    const field = document.getElementById(fieldId);
-    if (field) {
-        field.focus();
-        field.select();
-    }
-}
-
-// ========================================
-// UTILITY: Form Reset
-// ========================================
-function resetForm(formId) {
-    const form = document.getElementById(formId);
-    if (form) {
-        form.reset();
-        clearFormErrors(form);
-        // Clear auto-save data
-        localStorage.removeItem(formId || 'form-data');
-    }
-}
-
-// ========================================
-// UTILITY: Scroll to Top
-// ========================================
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-
-// ========================================
-// UTILITY: Get URL Parameters
-// ========================================
-function getUrlParams() {
-    const params = {};
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    for (const [key, value] of urlParams) {
-        params[key] = value;
-    }
-    return params;
-}
-
-// ========================================
-// CONSOLE HELPERS (For testing)
+// CONSOLE HELPERS
 // ========================================
 console.log('%c Stanley Tech Connect ', 'background: #00d2ff; color: #1a1a2e; font-size: 18px; font-weight: bold; padding: 8px 16px; border-radius: 4px;');
-console.log('%c Day 5: Reusable Header & Footer Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
+console.log('%c Day 6: Responsive Design Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
 
-// Expose helper functions globally for debugging
 window.STC = {
-    focusField,
-    resetForm,
-    clearFormErrors,
-    checkPasswordStrength,
-    scrollToTop,
-    getUrlParams,
     togglePasswordVisibility: window.togglePasswordVisibility,
     showFieldError,
-    showFieldSuccess
+    clearFormErrors,
+    checkPasswordStrength
 };

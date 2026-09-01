@@ -1,7 +1,7 @@
 <?php
 // ========================================
 // HEADER - Reusable Header Component
-// Used across all pages
+// Day 6: Responsive Design - Mobile-First Navigation
 // ========================================
 
 // Get current page name for active link detection
@@ -27,7 +27,7 @@ $nav_links = [
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title><?php echo $page_title ?? 'Stanley Tech Connect'; ?></title>
     
     <!-- Favicon -->
@@ -52,13 +52,20 @@ $nav_links = [
         <div class="header-container">
             <!-- Logo -->
             <div class="logo">
-                <a href="index.php">
+                <a href="index.php" aria-label="Stanley Tech Connect Home">
                     <img src="assets/images/logo.png" alt="Stanley Tech Connect" onerror="this.style.display='none'">
                     <span class="brand-text">STC</span>
                 </a>
             </div>
             
-            <!-- Navigation -->
+            <!-- Mobile Menu Toggle - Visible on mobile only -->
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Navigation - Hidden on mobile, shown on desktop -->
             <nav id="mainNav" role="navigation" aria-label="Main Navigation">
                 <ul>
                     <?php foreach ($nav_links as $page => $label): ?>
@@ -100,13 +107,6 @@ $nav_links = [
                     <?php endif; ?>
                 </ul>
             </nav>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </header>
 
