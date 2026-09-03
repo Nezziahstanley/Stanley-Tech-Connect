@@ -1,298 +1,347 @@
 // ========================================
 // STANLEY TECH CONNECT - COMPLETE JAVASCRIPT
-// Day 7: JavaScript Basics - Variables, Data Types & Operators
+// Day 8: Functions, Scope & Events
 // ========================================
 
 console.log('%c Stanley Tech Connect ', 'background: #00d2ff; color: #1a1a2e; font-size: 18px; font-weight: bold; padding: 8px 16px; border-radius: 4px;');
-console.log('%c Day 7: JavaScript Basics Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
+console.log('%c Day 8: Functions, Scope & Events Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
 
 // ========================================
-// 1. VARIABLES
+// 1. FUNCTIONS
 // ========================================
 
-// let - Can be changed (block-scoped)
-let studentName = "Stanley Okonkwo";
-let studentAge = 30;
-let isEnrolled = true;
+console.log('\n===== FUNCTION EXAMPLES =====');
 
-// const - Cannot be changed (block-scoped)
-const COMPANY_NAME = "Stanley Tech Connect";
-const FOUNDER = "Stanley Okonkwo";
-const YEAR_ESTABLISHED = 2024;
+// ----- Function Declaration -----
+function greetUser() {
+    console.log("Hello, welcome to Stanley Tech Connect!");
+}
 
-// var - Old way (function-scoped) - Avoid using
-var oldWay = "Not recommended for modern code";
+// ----- Function with Parameters -----
+function greetByName(name) {
+    console.log(`Hello ${name}! Welcome to STC.`);
+}
 
-console.log("===== VARIABLES =====");
-console.log(`Student Name: ${studentName}`);
-console.log(`Student Age: ${studentAge}`);
-console.log(`Is Enrolled: ${isEnrolled}`);
-console.log(`Company: ${COMPANY_NAME}`);
+// ----- Function that Returns a Value -----
+function addNumbers(a, b) {
+    return a + b;
+}
 
-// ========================================
-// 2. DATA TYPES
-// ========================================
-
-// Primitive Data Types
-let stringType = "Hello World";                    // String
-let numberType = 42;                              // Number
-let numberTypeDecimal = 3.14;                     // Number (decimal)
-let booleanTypeTrue = true;                       // Boolean
-let booleanTypeFalse = false;                     // Boolean
-let undefinedType;                                // Undefined (declared but not assigned)
-let nullType = null;                              // Null (intentionally empty)
-
-// Reference Data Types
-let arrayType = ["HTML", "CSS", "JavaScript", "PHP", "MySQL"];  // Array
-let objectType = {                                  // Object
-    firstName: "Stanley",
-    lastName: "Okonkwo",
-    age: 30,
-    skills: ["HTML", "CSS", "JS"]
-};
-
-console.log("\n===== DATA TYPES =====");
-console.log(`String: ${stringType} - Type: ${typeof stringType}`);
-console.log(`Number: ${numberType} - Type: ${typeof numberType}`);
-console.log(`Number (Decimal): ${numberTypeDecimal} - Type: ${typeof numberTypeDecimal}`);
-console.log(`Boolean (true): ${booleanTypeTrue} - Type: ${typeof booleanTypeTrue}`);
-console.log(`Boolean (false): ${booleanTypeFalse} - Type: ${typeof booleanTypeFalse}`);
-console.log(`Undefined: ${undefinedType} - Type: ${typeof undefinedType}`);
-console.log(`Null: ${nullType} - Type: ${typeof nullType}`); // JavaScript bug - shows "object"
-console.log(`Array: ${arrayType} - Type: ${typeof arrayType}`);
-console.log(`Object: ${JSON.stringify(objectType)} - Type: ${typeof objectType}`);
-
-// ========================================
-// 3. ARITHMETIC OPERATORS
-// ========================================
-
-let num1 = 20;
-let num2 = 7;
-
-let addition = num1 + num2;
-let subtraction = num1 - num2;
-let multiplication = num1 * num2;
-let division = num1 / num2;
-let modulus = num1 % num2;
-let exponent = num1 ** 2; // num1 squared
-let increment = num1++;
-let decrement = num2--;
-
-console.log("\n===== ARITHMETIC OPERATORS =====");
-console.log(`num1 = ${num1}, num2 = ${num2}`);
-console.log(`Addition (${num1} + ${num2}): ${addition}`);
-console.log(`Subtraction (${num1} - ${num2}): ${subtraction}`);
-console.log(`Multiplication (${num1} * ${num2}): ${multiplication}`);
-console.log(`Division (${num1} / ${num2}): ${division}`);
-console.log(`Modulus (${num1} % ${num2}): ${modulus}`);
-console.log(`Exponent (${num1} ** 2): ${exponent}`);
-
-// ========================================
-// 4. ASSIGNMENT OPERATORS
-// ========================================
-
-let x = 10;
-console.log("\n===== ASSIGNMENT OPERATORS =====");
-console.log(`Initial x = ${x}`);
-
-x += 5;  // x = x + 5
-console.log(`x += 5 : ${x}`);
-
-x -= 3;  // x = x - 3
-console.log(`x -= 3 : ${x}`);
-
-x *= 2;  // x = x * 2
-console.log(`x *= 2 : ${x}`);
-
-x /= 4;  // x = x / 4
-console.log(`x /= 4 : ${x}`);
-
-x %= 3;  // x = x % 3
-console.log(`x %= 3 : ${x}`);
-
-// ========================================
-// 5. COMPARISON OPERATORS
-// ========================================
-
-let a = 10;
-let b = "10";
-let c = 20;
-
-console.log("\n===== COMPARISON OPERATORS =====");
-console.log(`a = ${a} (Number), b = "${b}" (String), c = ${c} (Number)`);
-
-// Loose Equality (==) - Checks value only
-console.log(`a == b : ${a == b} (Loose equality - value only)`);
-
-// Strict Equality (===) - Checks value AND type
-console.log(`a === b : ${a === b} (Strict equality - value AND type)`);
-
-// Loose Inequality (!=)
-console.log(`a != c : ${a != c}`);
-
-// Strict Inequality (!==)
-console.log(`a !== b : ${a !== b}`);
-
-// Greater Than / Less Than
-console.log(`a > c : ${a > c}`);
-console.log(`a < c : ${a < c}`);
-console.log(`a >= b : ${a >= b}`);
-console.log(`a <= b : ${a <= b}`);
-
-// ========================================
-// 6. LOGICAL OPERATORS
-// ========================================
-
-let isAdmin = true;
-let isLoggedIn = true;
-let isGuest = false;
-
-console.log("\n===== LOGICAL OPERATORS =====");
-console.log(`isAdmin = ${isAdmin}, isLoggedIn = ${isLoggedIn}, isGuest = ${isGuest}`);
-
-// AND (&&) - Both must be true
-console.log(`isAdmin && isLoggedIn : ${isAdmin && isLoggedIn} (Both true)`);
-console.log(`isAdmin && isGuest : ${isAdmin && isGuest} (One false)`);
-
-// OR (||) - At least one must be true
-console.log(`isAdmin || isGuest : ${isAdmin || isGuest} (At least one true)`);
-console.log(`isLoggedIn || isGuest : ${isLoggedIn || isGuest} (Both true)`);
-
-// NOT (!) - Inverts the value
-console.log(`!isAdmin : ${!isAdmin}`);
-console.log(`!isGuest : ${!isGuest}`);
-
-// Combined Conditions
-let canAccessDashboard = isLoggedIn && (isAdmin || isGuest);
-console.log(`Can access dashboard? ${canAccessDashboard}`);
-
-// ========================================
-// 7. STRING OPERATORS & TEMPLATE LITERALS
-// ========================================
-
-let firstName = "Stanley";
-let lastName = "Okonkwo";
-let fullName = firstName + " " + lastName; // Concatenation
-
-console.log("\n===== STRING OPERATORS =====");
-console.log(`First Name: ${firstName}`);
-console.log(`Last Name: ${lastName}`);
-console.log(`Full Name (Concatenation): ${fullName}`);
-
-// Template Literals - Modern way
-let greeting = `Hello, my name is ${firstName} ${lastName}.`;
-let bio = `
-    Name: ${firstName} ${lastName}
-    Role: Lead Instructor at ${COMPANY_NAME}
-    Age: ${studentAge}
-    Experience: 8+ years
-    Skills: ${arrayType.join(", ")}
-`;
-
-console.log("\n===== TEMPLATE LITERALS =====");
-console.log(greeting);
-console.log(bio);
-
-// ========================================
-// 8. TYPE COERCION
-// ========================================
-
-console.log("\n===== TYPE COERCION =====");
-
-// String + Number = String
-console.log(`"5" + 3 = ${"5" + 3} (Number becomes string)`);
-
-// String - Number = Number
-console.log(`"5" - 3 = ${"5" - 3} (String becomes number)`);
-
-// Boolean to Number
-console.log(`true + 1 = ${true + 1} (true becomes 1)`);
-console.log(`false + 1 = ${false + 1} (false becomes 0)`);
-
-// Loose vs Strict Equality
-console.log(`5 == "5" : ${5 == "5"} (Loose - type coercion)`);
-console.log(`5 === "5" : ${5 === "5"} (Strict - no type coercion)`);
-
-// ========================================
-// 9. typeof OPERATOR
-// ========================================
-
-console.log("\n===== typeof OPERATOR =====");
-console.log(`typeof "Hello": ${typeof "Hello"}`);
-console.log(`typeof 42: ${typeof 42}`);
-console.log(`typeof true: ${typeof true}`);
-console.log(`typeof undefined: ${typeof undefined}`);
-console.log(`typeof null: ${typeof null} (JavaScript bug - should be null)`);
-console.log(`typeof {}: ${typeof {}}`);
-console.log(`typeof []: ${typeof []}`);
-console.log(`typeof function(){}: ${typeof function(){}}`);
-
-// ========================================
-// 10. PRACTICE EXAMPLES
-// ========================================
-
-console.log("\n===== PRACTICE EXAMPLES =====");
-
-// Example 1: Simple Calculator
+// ----- Function with Multiple Parameters -----
 function calculate(num1, num2, operator) {
-    switch(operator) {
-        case '+': return num1 + num2;
-        case '-': return num1 - num2;
-        case '*': return num1 * num2;
-        case '/': return num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
-        case '%': return num2 !== 0 ? num1 % num2 : "Cannot divide by zero";
-        default: return "Invalid operator";
+    if (operator === '+') return num1 + num2;
+    if (operator === '-') return num1 - num2;
+    if (operator === '*') return num1 * num2;
+    if (operator === '/') return num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
+    return "Invalid operator";
+}
+
+// ----- Calling Functions -----
+greetUser();
+greetByName("Stanley");
+
+let sumResult = addNumbers(10, 5);
+console.log(`Sum of 10 + 5 = ${sumResult}`);
+
+console.log(`Calculate 10 + 5 = ${calculate(10, 5, '+')}`);
+console.log(`Calculate 10 - 5 = ${calculate(10, 5, '-')}`);
+console.log(`Calculate 10 * 5 = ${calculate(10, 5, '*')}`);
+console.log(`Calculate 10 / 5 = ${calculate(10, 5, '/')}`);
+console.log(`Calculate 10 / 0 = ${calculate(10, 0, '/')}`);
+
+// ----- Function Expressions (Anonymous) -----
+const greetExpression = function(name) {
+    return `Hello ${name}! (from expression)`;
+};
+console.log(greetExpression("Stanley"));
+
+// ----- Arrow Functions (Modern Way) -----
+const multiply = (a, b) => a * b;
+const sayHello = name => `Hello ${name}! (from arrow function)`;
+const square = x => x * x;
+
+console.log(`Multiply 5 * 3 = ${multiply(5, 3)}`);
+console.log(sayHello("Stanley"));
+console.log(`Square of 5 = ${square(5)}`);
+
+// ----- Default Parameters -----
+function greetWithDefault(name = "Guest") {
+    return `Hello ${name}!`;
+}
+console.log(greetWithDefault());        // Hello Guest!
+console.log(greetWithDefault("Stanley")); // Hello Stanley!
+
+// ========================================
+// 2. SCOPE
+// ========================================
+
+console.log('\n===== SCOPE EXAMPLES =====');
+
+// ----- Global Scope -----
+let globalName = "Stanley (Global)";
+console.log(`Global variable: ${globalName}`);
+
+function showGlobal() {
+    console.log(`Inside function: ${globalName}`); // Can access global
+}
+showGlobal();
+
+// ----- Local/Function Scope -----
+function localScopeExample() {
+    let localVariable = "I'm inside a function";
+    console.log(`Local variable: ${localVariable}`);
+    return localVariable;
+}
+localScopeExample();
+// console.log(localVariable); // ❌ Error! Not accessible outside
+
+// ----- Block Scope (let & const) -----
+if (true) {
+    let blockScoped = "I'm inside a block";
+    const anotherBlock = "Also block scoped";
+    console.log(`Block variable: ${blockScoped}`);
+}
+// console.log(blockScoped); // ❌ Error! Not accessible outside
+
+// ----- Variable Shadowing -----
+let name = "Global Stanley";
+console.log(`Before function: ${name}`);
+
+function showName() {
+    let name = "Local Stanley"; // Shadows the global variable
+    console.log(`Inside function: ${name}`); // Local Stanley
+}
+showName();
+console.log(`After function: ${name}`); // Global Stanley
+
+// ----- Scope Chain -----
+let outer = "Outer";
+
+function outerFunction() {
+    let middle = "Middle";
+    
+    function innerFunction() {
+        let inner = "Inner";
+        console.log(`Inner can access: ${inner}, ${middle}, ${outer}`);
     }
+    innerFunction();
+    // console.log(inner); // ❌ Error! Not accessible here
 }
-
-console.log(`10 + 5 = ${calculate(10, 5, '+')}`);
-console.log(`10 - 5 = ${calculate(10, 5, '-')}`);
-console.log(`10 * 5 = ${calculate(10, 5, '*')}`);
-console.log(`10 / 5 = ${calculate(10, 5, '/')}`);
-console.log(`10 % 5 = ${calculate(10, 5, '%')}`);
-
-// Example 2: User Greeting
-function greetUser(name, age, isStudent) {
-    let status = isStudent ? "a student" : "not a student";
-    return `Hello ${name}! You are ${age} years old and you are ${status}.`;
-}
-
-console.log(greetUser("Stanley", 30, false));
-console.log(greetUser("John", 20, true));
+outerFunction();
 
 // ========================================
-// 11. CONSOLE HELPERS (For debugging)
+// 3. EVENTS
 // ========================================
 
-// Helper to check if a variable is a number
-function isNumber(value) {
-    return typeof value === 'number' && !isNaN(value);
+console.log('\n===== EVENT LISTENERS SETUP =====');
+
+// Wait for DOM to load before adding event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded - Setting up event listeners...");
+    
+    // ----- Click Event -----
+    const demoButton = document.getElementById('demoButton');
+    if (demoButton) {
+        demoButton.addEventListener('click', function() {
+            console.log('Button was clicked!');
+            alert('Hello from the demo button!');
+        });
+    }
+    
+    // ----- Event Object Example -----
+    const eventButton = document.getElementById('eventButton');
+    if (eventButton) {
+        eventButton.addEventListener('click', function(event) {
+            console.log('\n===== EVENT OBJECT =====');
+            console.log('Event type:', event.type);
+            console.log('Target element:', event.target);
+            console.log('Target ID:', event.target.id);
+            console.log('Mouse X:', event.clientX);
+            console.log('Mouse Y:', event.clientY);
+            alert(`Event Details:\nType: ${event.type}\nTarget: ${event.target.tagName}\nX: ${event.clientX}\nY: ${event.clientY}`);
+        });
+    }
+    
+    // ----- Mouseover & Mouseout Events -----
+    const hoverBox = document.getElementById('hoverBox');
+    if (hoverBox) {
+        hoverBox.addEventListener('mouseover', function() {
+            this.style.backgroundColor = '#00d2ff';
+            this.style.color = '#1a1a2e';
+            this.textContent = '✅ Hovering!';
+            console.log('Mouse entered the box');
+        });
+        
+        hoverBox.addEventListener('mouseout', function() {
+            this.style.backgroundColor = '#f0f4f8';
+            this.style.color = '#333';
+            this.textContent = '🖱️ Hover me!';
+            console.log('Mouse left the box');
+        });
+    }
+    
+    // ----- Form Submit Event (Prevent Default) -----
+    const demoForm = document.getElementById('demoForm');
+    if (demoForm) {
+        demoForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents page refresh
+            console.log('\n===== FORM SUBMITTED =====');
+            
+            const nameInput = document.getElementById('demoName');
+            const emailInput = document.getElementById('demoEmail');
+            
+            if (nameInput && emailInput) {
+                let name = nameInput.value.trim();
+                let email = emailInput.value.trim();
+                
+                if (name.length < 2) {
+                    alert('⚠️ Name must be at least 2 characters');
+                    nameInput.style.borderColor = 'red';
+                    return;
+                }
+                
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert('⚠️ Please enter a valid email address');
+                    emailInput.style.borderColor = 'red';
+                    return;
+                }
+                
+                console.log('Name:', name);
+                console.log('Email:', email);
+                alert(`✅ Form Submitted!\nName: ${name}\nEmail: ${email}`);
+                
+                // Clear form
+                nameInput.value = '';
+                emailInput.value = '';
+                nameInput.style.borderColor = '#ddd';
+                emailInput.style.borderColor = '#ddd';
+                document.getElementById('emailError').textContent = '';
+            }
+        });
+    }
+    
+    // ----- Input Event (Real-time validation) -----
+    const emailInput = document.getElementById('demoEmail');
+    const emailError = document.getElementById('emailError');
+    
+    if (emailInput && emailError) {
+        emailInput.addEventListener('input', function() {
+            let email = this.value;
+            
+            // Reset border color
+            this.style.borderColor = '#ddd';
+            
+            if (email.length === 0) {
+                emailError.textContent = '';
+                emailError.style.color = '';
+            } else if (email.includes('@') && email.includes('.')) {
+                emailError.textContent = '✅ Valid email format';
+                emailError.style.color = 'green';
+                this.style.borderColor = 'green';
+            } else {
+                emailError.textContent = '❌ Invalid email format (need @ and .)';
+                emailError.style.color = 'red';
+                this.style.borderColor = 'red';
+            }
+        });
+    }
+    
+    // ----- Keydown Event -----
+    const keyInput = document.getElementById('keyInput');
+    const keyDisplay = document.getElementById('keyDisplay');
+    
+    if (keyInput && keyDisplay) {
+        keyInput.addEventListener('keydown', function(event) {
+            keyDisplay.textContent = `⬇️ Key pressed: ${event.key} (Code: ${event.code})`;
+            keyDisplay.style.color = '#00d2ff';
+            console.log(`Key pressed: ${event.key}`);
+        });
+        
+        keyInput.addEventListener('keyup', function(event) {
+            keyDisplay.textContent = `⬆️ Key released: ${event.key}`;
+            keyDisplay.style.color = '#2ecc71';
+            console.log(`Key released: ${event.key}`);
+        });
+    }
+    
+    // ----- Event Delegation (Click on list items) -----
+    const list = document.getElementById('demoList');
+    if (list) {
+        list.addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                console.log('List item clicked:', event.target.textContent);
+                alert(`📌 You clicked: ${event.target.textContent}`);
+            }
+        });
+    }
+});
+
+// ========================================
+// 4. PRACTICAL EXAMPLES (Global Functions)
+// ========================================
+
+console.log('\n===== PRACTICAL FUNCTIONS =====');
+
+// ----- Function to calculate average -----
+function calculateAverage(num1, num2) {
+    return (num1 + num2) / 2;
 }
 
-// Helper to check if a variable is a string
-function isString(value) {
-    return typeof value === 'string';
+// ----- Function to check if a number is even -----
+function isEven(number) {
+    return number % 2 === 0;
 }
 
-// Helper to check if a variable is an array
-function isArray(value) {
-    return Array.isArray(value);
+// ----- Function to generate random number -----
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-console.log("\n===== HELPER FUNCTIONS =====");
-console.log(`isNumber(42): ${isNumber(42)}`);
-console.log(`isNumber("42"): ${isNumber("42")}`);
-console.log(`isString("Hello"): ${isString("Hello")}`);
-console.log(`isString(42): ${isString(42)}`);
-console.log(`isArray([1,2,3]): ${isArray([1,2,3])}`);
-console.log(`isArray({}): ${isArray({})}`);
+// ----- Function to format currency -----
+function formatCurrency(amount) {
+    return `₦${amount.toFixed(2)}`;
+}
 
-console.log("\n✅ Day 7: JavaScript Basics Complete!");
+// ----- Test the functions -----
+console.log(`Average of 10 and 20: ${calculateAverage(10, 20)}`);
+console.log(`Is 10 even? ${isEven(10)}`);
+console.log(`Is 7 even? ${isEven(7)}`);
+console.log(`Random number between 1-10: ${getRandomNumber(1, 10)}`);
+console.log(`Format currency: ${formatCurrency(1500.50)}`);
 
-// Expose helpers globally
+// ========================================
+// 5. CONSOLE HELPERS (For debugging)
+// ========================================
+
+console.log('\n===== HELPER FUNCTIONS =====');
+
+// Helper to test scope
+function testScope() {
+    let testVar = "I'm inside testScope";
+    console.log(`Inside testScope: ${testVar}`);
+    return testVar;
+}
+
+// Helper to demonstrate event listeners
+function setupEventListeners() {
+    console.log("Event listeners ready! Check DOM elements.");
+}
+
+// Export functions globally for console testing
 window.STC = window.STC || {};
 window.STC.calculate = calculate;
+window.STC.calculateAverage = calculateAverage;
+window.STC.isEven = isEven;
+window.STC.getRandomNumber = getRandomNumber;
+window.STC.formatCurrency = formatCurrency;
 window.STC.greetUser = greetUser;
-window.STC.isNumber = isNumber;
-window.STC.isString = isString;
-window.STC.isArray = isArray;
+window.STC.greetByName = greetByName;
+window.STC.testScope = testScope;
+
+console.log('\n✅ Day 8: Functions, Scope & Events Complete!');
+console.log('💡 Try these in console:');
+console.log('  STC.calculate(10, 5, "+")');
+console.log('  STC.calculateAverage(15, 25)');
+console.log('  STC.isEven(8)');
+console.log('  STC.getRandomNumber(1, 100)');
+console.log('  STC.formatCurrency(2500)');
