@@ -1,5 +1,5 @@
 <?php
-// Day 8: Functions, Scope & Events Demo Page
+// Day 9: DOM Manipulation Demo Page
 $page_title = "Home - Stanley Tech Connect";
 $meta_description = "Stanley Tech Connect - Learn, Build, and Grow with Technology. Join our 30-day challenge and become a full-stack developer.";
 
@@ -25,95 +25,96 @@ include 'includes/header.php';
     </div>
 </section>
 
-<!-- Day 8 Demo Section -->
-<section class="section-padding bg-light" id="day8-demo">
+<!-- Day 9: DOM Manipulation Demo -->
+<section class="section-padding bg-light" id="day9-demo">
     <div class="container">
-        <h2 class="section-title">Day 8 Demo: <span class="highlight">JavaScript Functions & Events</span></h2>
-        <p class="section-subtitle">Testing what we learned today - functions, scope, and events</p>
+        <h2 class="section-title">Day 9 Demo: <span class="highlight">DOM Manipulation</span></h2>
+        <p class="section-subtitle">Select, modify, and create elements dynamically</p>
         
-        <!-- Row 1: Buttons & Form -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 0 auto;">
+        <!-- Hidden elements for demo -->
+        <div id="demoHeader" style="display: none;">DOM Manipulation Demo</div>
+        <div id="contentArea" style="display: none;">Content</div>
+        <div id="styleBox" style="display: none;">Styled Box</div>
+        <div id="classBox" style="display: none;">Class Box</div>
+        <img id="demoImage" src="assets/images/logo.png" alt="Demo" style="display: none;">
+        <div id="demoTraverse" style="display: none;">Traverse Me</div>
+        
+        <!-- Row 1: Character Counter & Dynamic List -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto;">
             
-            <!-- Column 1: Buttons & Hover -->
-            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">Buttons & Events</h3>
-                
-                <button id="demoButton" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
-                    Click Me!
-                </button>
-                
-                <button id="eventButton" class="btn btn-secondary" style="width: 100%; margin-bottom: 10px;">
-                    Show Event Object
-                </button>
-                
-                <div id="hoverBox" style="background: #f0f4f8; padding: 20px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; border: 2px dashed #ccc; font-weight: 500;">
-                    🖱️ Hover me!
-                </div>
+            <!-- Character Counter -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">📝 Character Counter</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Type in the field below to see real-time character counting</p>
+                <input type="text" id="charInput" placeholder="Type something..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; transition: border-color 0.3s ease;">
+                <div id="charDisplay" style="font-size: 0.9rem; color: #888; margin-top: 8px;">Characters: 0</div>
+                <div style="font-size: 0.75rem; color: #999; margin-top: 5px;">Min 3 characters required</div>
             </div>
             
-            <!-- Column 2: Form & Input -->
-            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">Form & Input Events</h3>
-                
-                <form id="demoForm">
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem;">Name</label>
-                        <input type="text" id="demoName" placeholder="Enter your name" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
-                    </div>
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem;">Email</label>
-                        <input type="email" id="demoEmail" placeholder="Enter your email" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
-                        <small id="emailError" style="display: block; margin-top: 5px; font-size: 0.8rem; min-height: 20px;"></small>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-success" style="width: 100%;">
-                        Submit Form
-                    </button>
-                </form>
+            <!-- Dynamic List -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">📋 Dynamic List</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Add items and delete them individually</p>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <input type="text" id="itemInput" placeholder="Enter item..." style="flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; transition: border-color 0.3s ease;">
+                    <button id="addItemBtn" class="btn btn-success" style="white-space: nowrap; padding: 10px 20px;">Add</button>
+                </div>
+                <ul id="dynamicList" style="list-style: none; padding: 0; margin: 10px 0 0; min-height: 50px; max-height: 200px; overflow-y: auto;"></ul>
+                <div style="font-size: 0.75rem; color: #999; margin-top: 5px;">Press Enter to add</div>
             </div>
         </div>
         
-        <!-- Row 2: Key Input & List -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 20px auto 0;">
+        <!-- Row 2: Toggle & Counter -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 20px auto 0;">
             
-            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">Key Events</h3>
-                <input type="text" id="keyInput" placeholder="Type something..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; margin-bottom: 10px;">
-                <div id="keyDisplay" style="background: #f8f9fa; padding: 10px; border-radius: 8px; text-align: center; min-height: 40px; color: #666; font-size: 0.9rem;">
-                    Press a key...
+            <!-- Toggle Visibility -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">🔄 Toggle Visibility</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Show/Hide the box below with a button</p>
+                <div id="toggleBox" style="background: #f0f4f8; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 10px; transition: all 0.3s ease; border: 2px dashed #ccc;">
+                    📦 This box can be hidden!
+                </div>
+                <button id="toggleBtn" class="btn btn-danger" style="width: 100%;">Hide Box</button>
+            </div>
+            
+            <!-- Counter -->
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">🔢 Counter</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Click to increment, colors change at 5 and 10</p>
+                <div style="text-align: center; padding: 10px 0;">
+                    <span id="counterDisplay" style="font-size: 3rem; font-weight: bold; color: #2ecc71; transition: all 0.3s ease;">0</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="counterBtn" class="btn btn-primary" style="flex: 1;">➕ Increment</button>
+                    <button id="resetBtn" class="btn btn-secondary" style="flex: 1;">🔄 Reset All</button>
+                </div>
+                <div style="font-size: 0.75rem; color: #999; margin-top: 10px; text-align: center;">
+                    Reset all: counter, list, input, toggle box
                 </div>
             </div>
-            
-            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">Event Delegation</h3>
-                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Click any item below:</p>
-                <ul id="demoList" style="list-style: none; padding: 0; margin: 0;">
-                    <li style="padding: 10px 15px; background: #f8f9fa; margin-bottom: 5px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
-                        📚 Course 1: JavaScript Basics
-                    </li>
-                    <li style="padding: 10px 15px; background: #f8f9fa; margin-bottom: 5px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
-                        🎯 Course 2: PHP & MySQL
-                    </li>
-                    <li style="padding: 10px 15px; background: #f8f9fa; margin-bottom: 5px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
-                        🚀 Course 3: Full-Stack Development
-                    </li>
-                    <li style="padding: 10px 15px; background: #f8f9fa; margin-bottom: 5px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;">
-                        💻 Course 4: React.js Mastery
-                    </li>
-                </ul>
-            </div>
+        </div>
+        
+        <!-- Row 3: Dynamic Cards -->
+        <div style="max-width: 1000px; margin: 30px auto 0; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h3 style="margin-bottom: 15px; color: #1a1a2e; font-size: 1.1rem;">🎴 Dynamic Cards (Created with JavaScript)</h3>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">These cards are created dynamically using document.createElement()</p>
+            <div id="cardContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;"></div>
         </div>
         
         <!-- Console Instructions -->
-        <div style="max-width: 900px; margin: 30px auto 0; background: #1a1a2e; color: #fff; padding: 20px 25px; border-radius: 12px;">
+        <div style="max-width: 1000px; margin: 20px auto 0; background: #1a1a2e; color: #fff; padding: 20px 25px; border-radius: 12px;">
             <h4 style="color: #00d2ff; margin-bottom: 10px; font-size: 1rem;">💡 Open Console (F12) to see:</h4>
-            <ul style="list-style: none; padding: 0; font-size: 0.85rem; opacity: 0.9; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-                <li style="padding: 4px 0;">✅ Function calls and returns</li>
-                <li style="padding: 4px 0;">✅ Scope examples (global, local, block)</li>
-                <li style="padding: 4px 0;">✅ Event listeners in action</li>
-                <li style="padding: 4px 0;">✅ Keyboard events and mouse events</li>
+            <ul style="list-style: none; padding: 0; font-size: 0.85rem; opacity: 0.9; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
+                <li style="padding: 4px 0;">✅ DOM selection methods</li>
+                <li style="padding: 4px 0;">✅ Element modification</li>
+                <li style="padding: 4px 0;">✅ Dynamic element creation</li>
+                <li style="padding: 4px 0;">✅ DOM traversal</li>
+                <li style="padding: 4px 0;">✅ Event listeners</li>
+                <li style="padding: 4px 0;">✅ Console helpers</li>
             </ul>
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: #888;">
+                💡 Try in console: <code style="color: #00d2ff;">$(".card")</code> or <code style="color: #00d2ff;">$$("p")</code>
+            </div>
         </div>
     </div>
 </section>
