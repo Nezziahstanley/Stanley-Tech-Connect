@@ -1,43 +1,7 @@
 <?php
-// Day 5: Contact Page with Reusable Header/Footer
+// Day 10: Contact Page with Client-Side Validation
 $page_title = "Contact - Stanley Tech Connect";
 $meta_description = "Get in touch with Stanley Tech Connect for any questions or inquiries.";
-
-// Form handling
-$success_message = '';
-$error_message = '';
-$form_data = [];
-$errors = [];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $form_data['name'] = trim($_POST['name'] ?? '');
-    $form_data['email'] = trim($_POST['email'] ?? '');
-    $form_data['subject'] = trim($_POST['subject'] ?? '');
-    $form_data['message'] = trim($_POST['message'] ?? '');
-    
-    $errors = [];
-    
-    if (empty($form_data['name']) || strlen($form_data['name']) < 2) {
-        $errors['name'] = 'Name must be at least 2 characters';
-    }
-    
-    if (empty($form_data['email']) || !filter_var($form_data['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Please enter a valid email address';
-    }
-    
-    if (empty($form_data['subject'])) {
-        $errors['subject'] = 'Subject is required';
-    }
-    
-    if (empty($form_data['message']) || strlen($form_data['message']) < 10) {
-        $errors['message'] = 'Message must be at least 10 characters';
-    }
-    
-    if (empty($errors)) {
-        $success_message = 'Thank you! Your message has been sent successfully. We will get back to you within 24 hours.';
-        $form_data = [];
-    }
-}
 
 include 'includes/header.php';
 ?>
@@ -58,65 +22,40 @@ include 'includes/header.php';
             <div class="contact-form-wrapper">
                 <h2>Send Us a Message</h2>
                 
-                <?php if ($success_message): ?>
-                    <div class="form-success-summary">
-                        <strong>✅ <?php echo htmlspecialchars($success_message); ?></strong>
-                    </div>
-                <?php endif; ?>
-                
-                <form action="contact.php" method="POST" id="contactForm" novalidate>
+                <form id="contactForm" novalidate>
+                    <!-- Name Field -->
                     <div class="form-group">
-                        <label for="name">Full Name <span class="required">*</span></label>
-                        <input type="text" 
-                               id="name" 
-                               name="name" 
-                               value="<?php echo htmlspecialchars($form_data['name'] ?? ''); ?>"
-                               placeholder="John Doe" 
-                               required>
-                        <?php if (isset($errors['name'])): ?>
-                            <small class="field-error"><?php echo htmlspecialchars($errors['name']); ?></small>
-                        <?php endif; ?>
+                        <label for="contactName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="contactName" name="name" placeholder="John Doe" required>
+                        <small id="contactNameError" class="field-error"></small>
                     </div>
                     
+                    <!-- Email Field -->
                     <div class="form-group">
-                        <label for="email">Email Address <span class="required">*</span></label>
-                        <input type="email" 
-                               id="email" 
-                               name="email" 
-                               value="<?php echo htmlspecialchars($form_data['email'] ?? ''); ?>"
-                               placeholder="you@example.com" 
-                               required>
-                        <?php if (isset($errors['email'])): ?>
-                            <small class="field-error"><?php echo htmlspecialchars($errors['email']); ?></small>
-                        <?php endif; ?>
+                        <label for="contactEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="contactEmail" name="email" placeholder="you@example.com" required>
+                        <small id="contactEmailError" class="field-error"></small>
                     </div>
                     
+                    <!-- Subject Field -->
                     <div class="form-group">
-                        <label for="subject">Subject <span class="required">*</span></label>
-                        <input type="text" 
-                               id="subject" 
-                               name="subject" 
-                               value="<?php echo htmlspecialchars($form_data['subject'] ?? ''); ?>"
-                               placeholder="Brief subject" 
-                               required>
-                        <?php if (isset($errors['subject'])): ?>
-                            <small class="field-error"><?php echo htmlspecialchars($errors['subject']); ?></small>
-                        <?php endif; ?>
+                        <label for="contactSubject">Subject <span class="required">*</span></label>
+                        <input type="text" id="contactSubject" name="subject" placeholder="Brief subject" required>
+                        <small id="contactSubjectError" class="field-error"></small>
                     </div>
                     
+                    <!-- Message Field -->
                     <div class="form-group">
-                        <label for="message">Message <span class="required">*</span></label>
-                        <textarea id="message" 
-                                  name="message" 
-                                  rows="6" 
-                                  placeholder="Write your message here..." 
-                                  required><?php echo htmlspecialchars($form_data['message'] ?? ''); ?></textarea>
-                        <?php if (isset($errors['message'])): ?>
-                            <small class="field-error"><?php echo htmlspecialchars($errors['message']); ?></small>
-                        <?php endif; ?>
-                        <small class="field-help">Minimum 10 characters</small>
+                        <label for="contactMessage">Message <span class="required">*</span></label>
+                        <textarea id="contactMessage" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                            <small id="contactMessageError" class="field-error"></small>
+                            <small id="charCounter" style="color: #888; font-size: 0.85rem;">0/2000</small>
+                        </div>
+                        <span class="field-help">Minimum 10 characters</span>
                     </div>
                     
+                    <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary btn-block btn-lg">Send Message</button>
                 </form>
             </div>
@@ -160,15 +99,9 @@ include 'includes/header.php';
                 <div class="social-connect-box">
                     <h3>Connect With Us</h3>
                     <div class="social-buttons">
-                        <a href="https://github.com/stanleytechconnect" target="_blank" class="social-btn github">
-                            🐙 GitHub
-                        </a>
-                        <a href="https://facebook.com/Stanley-Tech-Connect" target="_blank" class="social-btn facebook">
-                            📘 Facebook
-                        </a>
-                        <a href="https://wa.me/2347041145338" target="_blank" class="social-btn whatsapp">
-                            💬 WhatsApp
-                        </a>
+                        <a href="https://github.com/stanleytechconnect" target="_blank" class="social-btn github">🐙 GitHub</a>
+                        <a href="https://facebook.com/Stanley-Tech-Connect" target="_blank" class="social-btn facebook">📘 Facebook</a>
+                        <a href="https://wa.me/2347041145338" target="_blank" class="social-btn whatsapp">💬 WhatsApp</a>
                     </div>
                 </div>
             </div>

@@ -1,404 +1,517 @@
 // ========================================
 // STANLEY TECH CONNECT - COMPLETE JAVASCRIPT
-// Day 9: DOM Manipulation - Select, Modify, Create
+// Day 10: Form Validation - Client-Side Validation
 // ========================================
 
 console.log('%c Stanley Tech Connect ', 'background: #00d2ff; color: #1a1a2e; font-size: 18px; font-weight: bold; padding: 8px 16px; border-radius: 4px;');
-console.log('%c Day 9: DOM Manipulation Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
+console.log('%c Day 10: Form Validation Complete ✅ ', 'background: #2ecc71; color: #fff; font-size: 14px; padding: 4px 12px; border-radius: 4px;');
 
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('\n===== DAY 9: DOM MANIPULATION =====');
+    console.log('\n===== DAY 10: FORM VALIDATION =====');
     
     // ========================================
-    // 1. SELECTING ELEMENTS
+    // 1. REGISTRATION FORM VALIDATION
     // ========================================
     
-    console.log('\n===== 1. SELECTING ELEMENTS =====');
+    console.log('\n===== 1. REGISTRATION FORM =====');
     
-    // By ID
-    let mainTitle = document.getElementById('mainTitle');
-    if (mainTitle) {
-        console.log('✅ By ID:', mainTitle);
-    }
-    
-    // By Class (returns HTMLCollection)
-    let cards = document.getElementsByClassName('card');
-    console.log('✅ By Class:', cards.length, 'cards found');
-    
-    // By Tag Name (returns HTMLCollection)
-    let paragraphs = document.getElementsByTagName('p');
-    console.log('✅ By Tag Name:', paragraphs.length, 'paragraphs found');
-    
-    // Query Selector - First match
-    let firstCard = document.querySelector('.card');
-    if (firstCard) {
-        console.log('✅ First Card:', firstCard);
-    }
-    
-    // Query Selector All - All matches (NodeList)
-    let allCards = document.querySelectorAll('.card');
-    console.log('✅ All Cards:', allCards.length, 'cards found');
-    
-    // ========================================
-    // 2. MODIFYING ELEMENTS
-    // ========================================
-    
-    console.log('\n===== 2. MODIFYING ELEMENTS =====');
-    
-    // Change text content
-    let demoHeader = document.getElementById('demoHeader');
-    if (demoHeader) {
-        demoHeader.textContent = 'DOM Manipulation Demo';
-        console.log('✅ Text changed to:', demoHeader.textContent);
-    }
-    
-    // Change HTML content
-    let contentArea = document.getElementById('contentArea');
-    if (contentArea) {
-        contentArea.innerHTML = '<strong>✅ This is bold text!</strong>';
-        console.log('✅ HTML changed');
-    }
-    
-    // Change styles
-    let styleBox = document.getElementById('styleBox');
-    if (styleBox) {
-        styleBox.style.backgroundColor = '#00d2ff';
-        styleBox.style.color = '#1a1a2e';
-        styleBox.style.padding = '20px';
-        styleBox.style.borderRadius = '12px';
-        styleBox.style.textAlign = 'center';
-        styleBox.style.fontWeight = 'bold';
-        console.log('✅ Styles applied');
-    }
-    
-    // Add/remove classes
-    let classBox = document.getElementById('classBox');
-    if (classBox) {
-        classBox.classList.add('highlight');
-        console.log('✅ Class added');
-    }
-    
-    // Change attributes
-    let demoImage = document.getElementById('demoImage');
-    if (demoImage) {
-        demoImage.setAttribute('alt', 'Demo Image');
-        demoImage.setAttribute('title', 'Hover to see this');
-        console.log('✅ Attributes updated');
-    }
-    
-    // ========================================
-    // 3. CHARACTER COUNTER
-    // ========================================
-    
-    console.log('\n===== 3. CHARACTER COUNTER =====');
-    
-    let charInput = document.getElementById('charInput');
-    let charDisplay = document.getElementById('charDisplay');
-    
-    if (charInput && charDisplay) {
-        charInput.addEventListener('input', function() {
-            let length = this.value.length;
-            charDisplay.textContent = `Characters: ${length}`;
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent actual submission
             
-            if (length < 3 && length > 0) {
-                charDisplay.style.color = '#e74c3c';
-                charDisplay.textContent = `⚠️ Min 3 characters (${length})`;
-            } else if (length >= 3) {
-                charDisplay.style.color = '#2ecc71';
-                charDisplay.textContent = `✅ Good! (${length})`;
+            console.log('📝 Registration form submitted - validating...');
+            
+            // Get all values
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const terms = document.getElementById('regTerms').checked;
+            
+            // Clear previous errors
+            clearValidationErrors();
+            
+            // Validation object
+            const errors = {};
+            let isValid = true;
+            
+            // Validate Name
+            if (name.length === 0) {
+                errors.name = 'Full name is required';
+                isValid = false;
+            } else if (name.length < 2) {
+                errors.name = 'Name must be at least 2 characters';
+                isValid = false;
+            } else if (name.length > 50) {
+                errors.name = 'Name must be less than 50 characters';
+                isValid = false;
+            }
+            
+            // Validate Email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.length === 0) {
+                errors.email = 'Email address is required';
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                errors.email = 'Please enter a valid email address';
+                isValid = false;
+            }
+            
+            // Validate Phone
+            const phonePattern = /^[0-9]{10,15}$/;
+            if (phone.length === 0) {
+                errors.phone = 'Phone number is required';
+                isValid = false;
+            } else if (!phonePattern.test(phone)) {
+                errors.phone = 'Please enter a valid phone number (10-15 digits)';
+                isValid = false;
+            }
+            
+            // Validate Password
+            if (password.length === 0) {
+                errors.password = 'Password is required';
+                isValid = false;
+            } else if (password.length < 8) {
+                errors.password = 'Password must be at least 8 characters';
+                isValid = false;
+            } else if (password.length > 50) {
+                errors.password = 'Password must be less than 50 characters';
+                isValid = false;
+            }
+            
+            // Validate Confirm Password
+            if (confirmPassword.length === 0) {
+                errors.confirmPassword = 'Please confirm your password';
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                errors.confirmPassword = 'Passwords do not match';
+                isValid = false;
+            }
+            
+            // Validate Terms
+            if (!terms) {
+                errors.terms = 'You must agree to the Terms of Service';
+                isValid = false;
+            }
+            
+            // Show errors or success
+            if (isValid) {
+                showValidationSuccess('✅ Registration successful! Welcome to Stanley Tech Connect!');
+                console.log('✅ Registration validated successfully');
+                registerForm.reset();
+                registerForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
-                charDisplay.style.color = '#888';
-                charDisplay.textContent = `Characters: 0`;
-            }
-        });
-        console.log('✅ Character counter initialized');
-    }
-    
-    // ========================================
-    // 4. DYNAMIC LIST
-    // ========================================
-    
-    console.log('\n===== 4. DYNAMIC LIST =====');
-    
-    let addItemBtn = document.getElementById('addItemBtn');
-    let itemInput = document.getElementById('itemInput');
-    let dynamicList = document.getElementById('dynamicList');
-    
-    if (addItemBtn && itemInput && dynamicList) {
-        addItemBtn.addEventListener('click', function() {
-            let text = itemInput.value.trim();
-            
-            if (text === '') {
-                alert('⚠️ Please enter an item');
-                return;
-            }
-            
-            // Create list item
-            let li = document.createElement('li');
-            li.style.cssText = `
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 15px;
-                background: #f8f9fa;
-                margin-bottom: 5px;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-                animation: fadeInUp 0.3s ease forwards;
-            `;
-            
-            li.innerHTML = `
-                <span>${text}</span>
-                <button style="
-                    background: #e74c3c;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 5px 12px;
-                    cursor: pointer;
-                    font-size: 14px;
-                    transition: all 0.3s ease;
-                ">Delete</button>
-            `;
-            
-            // Add delete functionality
-            li.querySelector('button').addEventListener('click', function() {
-                li.style.transform = 'scale(0.9)';
-                li.style.opacity = '0';
-                setTimeout(() => li.remove(), 300);
-                console.log('🗑️ Item deleted:', text);
-            });
-            
-            // Add hover effect
-            li.addEventListener('mouseenter', function() {
-                this.style.backgroundColor = '#e9ecef';
-                this.style.transform = 'translateX(5px)';
-            });
-            li.addEventListener('mouseleave', function() {
-                this.style.backgroundColor = '#f8f9fa';
-                this.style.transform = 'translateX(0)';
-            });
-            
-            dynamicList.appendChild(li);
-            console.log('✅ Item added:', text);
-            
-            // Clear input
-            itemInput.value = '';
-            itemInput.focus();
-        });
-        
-        // Add on Enter key
-        itemInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                addItemBtn.click();
+                showValidationErrors(errors);
+                console.log('❌ Validation failed:', Object.keys(errors).length, 'errors found');
+                const firstErrorField = Object.keys(errors)[0];
+                const field = document.getElementById(firstErrorField);
+                if (field) {
+                    field.focus();
+                }
             }
         });
         
-        console.log('✅ Dynamic list initialized');
+        // Real-time validation for registration form
+        setupRealTimeValidation('regName', 'nameError', 'Name must be at least 2 characters', 2);
+        setupRealTimeValidation('regEmail', 'emailError', 'Please enter a valid email');
+        setupRealTimeValidation('regPhone', 'phoneError', 'Please enter 10-15 digits', 10);
+        
+        // Real-time password strength
+        const regPassword = document.getElementById('regPassword');
+        if (regPassword) {
+            regPassword.addEventListener('input', function() {
+                const strength = checkPasswordStrength(this.value);
+                const strengthDiv = document.getElementById('regPasswordStrength');
+                
+                if (strengthDiv) {
+                    strengthDiv.style.display = 'block';
+                    const textSpan = strengthDiv.querySelector('.strength-text');
+                    const barDiv = strengthDiv.querySelector('.strength-bar');
+                    
+                    if (textSpan) {
+                        textSpan.textContent = strength.text;
+                        textSpan.style.color = strength.color;
+                    }
+                    
+                    if (barDiv) {
+                        barDiv.className = 'strength-bar';
+                        if (strength.value > 0) {
+                            barDiv.classList.add(strength.class);
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Real-time password match
+        const regConfirm = document.getElementById('regConfirmPassword');
+        if (regConfirm) {
+            regConfirm.addEventListener('input', function() {
+                const password = document.getElementById('regPassword').value;
+                const confirm = this.value;
+                const errorDiv = document.getElementById('confirmPasswordError');
+                
+                if (confirm.length > 0) {
+                    if (password !== confirm) {
+                        errorDiv.textContent = '❌ Passwords do not match';
+                        errorDiv.style.color = '#e74c3c';
+                        this.style.borderColor = '#e74c3c';
+                    } else {
+                        errorDiv.textContent = '✅ Passwords match';
+                        errorDiv.style.color = '#2ecc71';
+                        this.style.borderColor = '#2ecc71';
+                    }
+                } else {
+                    errorDiv.textContent = '';
+                    this.style.borderColor = '#ddd';
+                }
+            });
+        }
+        
+        console.log('✅ Registration form validation initialized');
     }
     
     // ========================================
-    // 5. TOGGLE VISIBILITY
+    // 2. LOGIN FORM VALIDATION
     // ========================================
     
-    console.log('\n===== 5. TOGGLE VISIBILITY =====');
+    console.log('\n===== 2. LOGIN FORM =====');
     
-    let toggleBtn = document.getElementById('toggleBtn');
-    let toggleBox = document.getElementById('toggleBox');
-    
-    if (toggleBtn && toggleBox) {
-        toggleBtn.addEventListener('click', function() {
-            if (toggleBox.style.display === 'none') {
-                toggleBox.style.display = 'block';
-                this.textContent = 'Hide Box';
-                this.className = 'btn btn-danger';
-                console.log('📦 Box shown');
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            console.log('🔐 Login form submitted - validating...');
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // Clear previous errors
+            document.getElementById('loginEmailError').textContent = '';
+            document.getElementById('loginPasswordError').textContent = '';
+            
+            const errors = {};
+            let isValid = true;
+            
+            // Validate Email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.length === 0) {
+                errors.email = 'Email address is required';
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                errors.email = 'Please enter a valid email address';
+                isValid = false;
+            }
+            
+            // Validate Password
+            if (password.length === 0) {
+                errors.password = 'Password is required';
+                isValid = false;
+            } else if (password.length < 8) {
+                errors.password = 'Password must be at least 8 characters';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                showValidationSuccess('✅ Login successful! Redirecting to dashboard...');
+                console.log('✅ Login validated successfully');
+                loginForm.reset();
             } else {
-                toggleBox.style.display = 'none';
-                this.textContent = 'Show Box';
-                this.className = 'btn btn-primary';
-                console.log('📦 Box hidden');
+                if (errors.email) {
+                    document.getElementById('loginEmailError').textContent = errors.email;
+                    document.getElementById('loginEmailError').style.color = '#e74c3c';
+                }
+                if (errors.password) {
+                    document.getElementById('loginPasswordError').textContent = errors.password;
+                    document.getElementById('loginPasswordError').style.color = '#e74c3c';
+                }
+                console.log('❌ Login validation failed');
             }
         });
-        console.log('✅ Toggle initialized');
+        
+        // Real-time validation for login
+        setupRealTimeValidation('loginEmail', 'loginEmailError', 'Please enter a valid email');
+        setupRealTimeValidation('loginPassword', 'loginPasswordError', 'Password must be at least 8 characters', 8);
+        
+        console.log('✅ Login form validation initialized');
     }
     
     // ========================================
-    // 6. COUNTER
+    // 3. CONTACT FORM VALIDATION
     // ========================================
     
-    console.log('\n===== 6. COUNTER =====');
+    console.log('\n===== 3. CONTACT FORM =====');
     
-    let counterBtn = document.getElementById('counterBtn');
-    let counterDisplay = document.getElementById('counterDisplay');
-    let resetBtn = document.getElementById('resetBtn');
-    let count = 0;
-    
-    if (counterBtn && counterDisplay) {
-        counterBtn.addEventListener('click', function() {
-            count++;
-            counterDisplay.textContent = count;
-            console.log('🔢 Counter:', count);
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
             
-            // Change color based on count
-            if (count > 10) {
-                counterDisplay.style.color = '#e74c3c';
-                counterDisplay.style.fontSize = '2.5rem';
-                counterDisplay.style.transition = 'all 0.3s ease';
-            } else if (count > 5) {
-                counterDisplay.style.color = '#ffc107';
-                counterDisplay.style.fontSize = '2rem';
+            console.log('📧 Contact form submitted - validating...');
+            
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const subject = document.getElementById('contactSubject').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+            
+            // Clear previous errors
+            clearContactErrors();
+            
+            const errors = {};
+            let isValid = true;
+            
+            // Validate Name
+            if (name.length === 0) {
+                errors.name = 'Name is required';
+                isValid = false;
+            } else if (name.length < 2) {
+                errors.name = 'Name must be at least 2 characters';
+                isValid = false;
+            }
+            
+            // Validate Email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.length === 0) {
+                errors.email = 'Email is required';
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                errors.email = 'Please enter a valid email address';
+                isValid = false;
+            }
+            
+            // Validate Subject
+            if (subject.length === 0) {
+                errors.subject = 'Subject is required';
+                isValid = false;
+            } else if (subject.length < 3) {
+                errors.subject = 'Subject must be at least 3 characters';
+                isValid = false;
+            }
+            
+            // Validate Message
+            if (message.length === 0) {
+                errors.message = 'Message is required';
+                isValid = false;
+            } else if (message.length < 10) {
+                errors.message = 'Message must be at least 10 characters';
+                isValid = false;
+            } else if (message.length > 2000) {
+                errors.message = 'Message must be less than 2000 characters';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                showValidationSuccess('✅ Message sent successfully! We\'ll get back to you within 24 hours.');
+                console.log('✅ Contact form validated successfully');
+                contactForm.reset();
+                document.getElementById('charCounter').textContent = '0/2000';
             } else {
-                counterDisplay.style.color = '#2ecc71';
-                counterDisplay.style.fontSize = '1.5rem';
+                showContactErrors(errors);
+                console.log('❌ Contact form validation failed');
             }
         });
-        console.log('✅ Counter initialized');
+        
+        // Real-time character counter for message
+        const contactMessage = document.getElementById('contactMessage');
+        const charCounter = document.getElementById('charCounter');
+        
+        if (contactMessage && charCounter) {
+            contactMessage.addEventListener('input', function() {
+                const length = this.value.length;
+                charCounter.textContent = `${length}/2000`;
+                
+                if (length < 10 && length > 0) {
+                    charCounter.style.color = '#e74c3c';
+                } else if (length >= 10 && length <= 2000) {
+                    charCounter.style.color = '#2ecc71';
+                } else {
+                    charCounter.style.color = '#888';
+                }
+            });
+        }
+        
+        console.log('✅ Contact form validation initialized');
     }
     
     // ========================================
-    // 7. RESET ALL
+    // 4. HELPER FUNCTIONS
     // ========================================
     
-    console.log('\n===== 7. RESET ALL =====');
+    console.log('\n===== 4. HELPER FUNCTIONS =====');
     
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
-            // Reset counter
-            if (counterDisplay) {
-                count = 0;
-                counterDisplay.textContent = '0';
-                counterDisplay.style.color = '#2ecc71';
-                counterDisplay.style.fontSize = '1.5rem';
-            }
-            
-            // Clear list
-            if (dynamicList) {
-                dynamicList.innerHTML = '';
-            }
-            
-            // Clear input
-            if (itemInput) {
-                itemInput.value = '';
-            }
-            
-            // Reset toggle box
-            if (toggleBox && toggleBtn) {
-                toggleBox.style.display = 'block';
-                toggleBtn.textContent = 'Hide Box';
-                toggleBtn.className = 'btn btn-danger';
-            }
-            
-            // Reset char input
-            if (charInput && charDisplay) {
-                charInput.value = '';
-                charDisplay.textContent = 'Characters: 0';
-                charDisplay.style.color = '#888';
-            }
-            
-            console.log('🔄 All reset!');
-        });
-        console.log('✅ Reset button initialized');
-    }
-    
-    // ========================================
-    // 8. DYNAMIC CARDS
-    // ========================================
-    
-    console.log('\n===== 8. DYNAMIC CARDS =====');
-    
-    function createCard(title, description, icon) {
-        let card = document.createElement('div');
-        card.className = 'card';
-        card.style.cssText = `
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: default;
-            border: 1px solid transparent;
+    // Show validation errors
+    function showValidationErrors(errors) {
+        // Remove existing error summary
+        const existingSummary = document.querySelector('.validation-summary');
+        if (existingSummary) existingSummary.remove();
+        
+        // Create error summary
+        const summary = document.createElement('div');
+        summary.className = 'validation-summary form-error-summary';
+        summary.style.cssText = 'margin-bottom: 20px;';
+        summary.innerHTML = `
+            <strong>❌ Please fix the following errors:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+                ${Object.values(errors).map(err => `<li>${err}</li>`).join('')}
+            </ul>
         `;
         
-        card.innerHTML = `
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">${icon}</div>
-            <h3 style="margin: 10px 0 5px; color: #1a1a2e; font-size: 1.1rem;">${title}</h3>
-            <p style="color: #666; font-size: 0.9rem; margin: 0;">${description}</p>
-        `;
+        // Insert at top of form
+        const form = document.querySelector('form');
+        if (form) {
+            form.prepend(summary);
+        }
         
-        // Add hover effect
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 8px 30px rgba(0,0,0,0.12)';
-            this.style.borderColor = 'rgba(0, 210, 255, 0.2)';
+        // Highlight error fields
+        Object.keys(errors).forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.style.borderColor = '#e74c3c';
+                field.classList.add('error');
+            }
         });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
-            this.style.borderColor = 'transparent';
-        });
-        
-        return card;
     }
     
-    let cardContainer = document.getElementById('cardContainer');
-    if (cardContainer) {
-        let items = [
-            { title: 'JavaScript Basics', desc: 'Learn the fundamentals', icon: '📚' },
-            { title: 'PHP & MySQL', desc: 'Build dynamic websites', icon: '🗄️' },
-            { title: 'React.js', desc: 'Modern frontend development', icon: '⚛️' },
-            { title: 'Full-Stack', desc: 'Complete web development', icon: '🚀' }
-        ];
+    // Show validation success
+    function showValidationSuccess(message) {
+        const summary = document.createElement('div');
+        summary.className = 'validation-success form-success-summary';
+        summary.style.cssText = 'margin-bottom: 20px;';
+        summary.innerHTML = `<strong>${message}</strong>`;
         
-        items.forEach(item => {
-            let card = createCard(item.title, item.desc, item.icon);
-            cardContainer.appendChild(card);
+        const form = document.querySelector('form');
+        if (form) {
+            const existing = form.querySelector('.validation-success');
+            if (existing) existing.remove();
+            form.prepend(summary);
+        }
+    }
+    
+    // Clear validation errors
+    function clearValidationErrors() {
+        document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            el.style.borderColor = '#ddd';
+            el.classList.remove('error', 'success');
         });
-        console.log('✅ 4 cards created and added');
+        const summary = document.querySelector('.validation-summary');
+        if (summary) summary.remove();
     }
     
-    // ========================================
-    // 9. DOM TRAVERSAL
-    // ========================================
-    
-    console.log('\n===== 9. DOM TRAVERSAL =====');
-    
-    let demoTraverse = document.getElementById('demoTraverse');
-    if (demoTraverse) {
-        console.log('✅ Element found:', demoTraverse);
-        console.log('   Parent:', demoTraverse.parentElement);
-        console.log('   Children:', demoTraverse.children.length);
-        console.log('   Next Sibling:', demoTraverse.nextElementSibling);
-        console.log('   Previous Sibling:', demoTraverse.previousElementSibling);
+    // Real-time validation setup
+    function setupRealTimeValidation(inputId, errorId, message, minLength) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(errorId);
+        
+        if (input && error) {
+            input.addEventListener('blur', function() {
+                const value = this.value.trim();
+                
+                if (value.length === 0) {
+                    error.textContent = '⚠️ ' + message;
+                    error.style.color = '#e74c3c';
+                    this.style.borderColor = '#e74c3c';
+                } else if (minLength && value.length < minLength) {
+                    error.textContent = '⚠️ ' + message;
+                    error.style.color = '#e74c3c';
+                    this.style.borderColor = '#e74c3c';
+                } else if (inputId === 'regEmail' || inputId === 'loginEmail') {
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(value)) {
+                        error.textContent = '⚠️ ' + message;
+                        error.style.color = '#e74c3c';
+                        this.style.borderColor = '#e74c3c';
+                    } else {
+                        error.textContent = '✅ Valid';
+                        error.style.color = '#2ecc71';
+                        this.style.borderColor = '#2ecc71';
+                    }
+                } else {
+                    error.textContent = '✅ Valid';
+                    error.style.color = '#2ecc71';
+                    this.style.borderColor = '#2ecc71';
+                }
+            });
+            
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#00d2ff';
+            });
+        }
     }
     
-    // ========================================
-    // 10. CONSOLE HELPERS
-    // ========================================
+    // Show contact form errors
+    function showContactErrors(errors) {
+        const fields = {
+            name: 'contactNameError',
+            email: 'contactEmailError',
+            subject: 'contactSubjectError',
+            message: 'contactMessageError'
+        };
+        
+        Object.keys(fields).forEach(field => {
+            const errorEl = document.getElementById(fields[field]);
+            const input = document.getElementById(`contact${field.charAt(0).toUpperCase() + field.slice(1)}`);
+            
+            if (errors[field]) {
+                if (errorEl) {
+                    errorEl.textContent = errors[field];
+                    errorEl.style.color = '#e74c3c';
+                }
+                if (input) {
+                    input.style.borderColor = '#e74c3c';
+                    input.classList.add('error');
+                }
+            }
+        });
+    }
     
-    console.log('\n===== 10. CONSOLE HELPERS =====');
+    // Clear contact form errors
+    function clearContactErrors() {
+        ['contactNameError', 'contactEmailError', 'contactSubjectError', 'contactMessageError'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = '';
+                el.style.color = '';
+            }
+        });
+        
+        ['contactName', 'contactEmail', 'contactSubject', 'contactMessage'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.borderColor = '#ddd';
+                el.classList.remove('error', 'success');
+            }
+        });
+    }
     
-    // Helper to select elements
-    window.$ = function(selector) {
-        return document.querySelector(selector);
-    };
+    // Password strength checker
+    function checkPasswordStrength(password) {
+        let score = 0;
+        
+        if (password.length === 0) {
+            return { value: 0, text: 'Enter a password', color: '#888', class: '' };
+        }
+        
+        if (password.length >= 8) score++;
+        if (password.length >= 12) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^a-zA-Z0-9]/.test(password)) score++;
+        
+        if (score <= 2) {
+            return { value: 1, text: 'Weak - Add more characters and variety', color: '#e74c3c', class: 'weak' };
+        } else if (score <= 4) {
+            return { value: 2, text: 'Medium - Add uppercase and special characters', color: '#ffc107', class: 'medium' };
+        } else {
+            return { value: 3, text: 'Strong - Great password!', color: '#2ecc71', class: 'strong' };
+        }
+    }
     
-    window.$$ = function(selector) {
-        return document.querySelectorAll(selector);
-    };
-    
-    // Helper to create elements
-    window.create = function(tag, content, className) {
-        let el = document.createElement(tag);
-        if (content) el.textContent = content;
-        if (className) el.className = className;
-        return el;
-    };
-    
-    console.log('✅ Helpers available: $(), $$(), create()');
-    console.log('💡 Try: $(".card") or $$("p")');
-    
-    console.log('\n✅ Day 9: DOM Manipulation Complete!');
+    console.log('✅ Helper functions registered');
+    console.log('\n✅ Day 10: Form Validation Complete!');
 });

@@ -1,6 +1,6 @@
 /* ========================================
    STANLEY TECH CONNECT - COMPLETE CSS
-   Day 9: DOM Manipulation Styles
+   Day 10: Form Validation & All Previous Styles
    ======================================== */
 
 /* ---------- CSS VARIABLES ---------- */
@@ -1264,9 +1264,6 @@ footer::before {
 .social-btn.github { background: var(--dark); }
 .social-btn.facebook { background: #1877f2; }
 .social-btn.whatsapp { background: #25D366; }
-.social-btn.twitter { background: #1da1f2; }
-.social-btn.instagram { background: #e4405f; }
-.social-btn.youtube { background: #ff0000; }
 
 /* ---------- FORM STYLES ---------- */
 .form-container {
@@ -1327,6 +1324,7 @@ footer::before {
     display: block;
     margin-top: var(--spacing-1);
     font-size: var(--font-size-sm);
+    min-height: 20px;
 }
 
 .field-help {
@@ -1336,23 +1334,24 @@ footer::before {
     font-size: var(--font-size-sm);
 }
 
+/* Input with icon */
 .input-with-icon {
     position: relative;
 }
 
 .input-with-icon input {
-    padding-right: 44px;
+    padding-right: 45px;
 }
 
 .input-with-icon .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     color: var(--gray);
     padding: var(--spacing-1);
     transition: var(--transition-base);
@@ -1364,6 +1363,7 @@ footer::before {
     color: var(--dark);
 }
 
+/* Password Strength */
 .password-strength {
     margin-top: var(--spacing-1);
     padding: var(--spacing-2) var(--spacing-3);
@@ -1378,7 +1378,7 @@ footer::before {
 }
 
 .password-strength .strength-bar {
-    height: 3px;
+    height: 4px;
     border-radius: var(--radius-sm);
     margin-top: var(--spacing-1);
     transition: width var(--transition-base);
@@ -1400,6 +1400,7 @@ footer::before {
     background: var(--success);
 }
 
+/* Form Check */
 .form-check {
     display: flex;
     align-items: flex-start;
@@ -1410,8 +1411,8 @@ footer::before {
 
 .form-check input[type="checkbox"],
 .form-check input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-top: 2px;
     flex-shrink: 0;
     cursor: pointer;
@@ -1429,30 +1430,61 @@ footer::before {
     font-weight: 600;
 }
 
-.form-error-summary {
+/* ========================================
+   DAY 10: FORM VALIDATION STYLES
+   ======================================== */
+
+/* ----- Error States ----- */
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+.form-group input.success,
+.form-group textarea.success,
+.form-group select.success {
+    border-color: var(--success) !important;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1) !important;
+}
+
+/* ----- Validation Summary ----- */
+.validation-summary {
     background: #fde8e8;
     border: 1px solid #f5c6c6;
     border-radius: var(--radius-md);
-    padding: var(--spacing-3) var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-5);
     margin-bottom: var(--spacing-4);
 }
 
-.form-error-summary strong {
+.validation-summary strong {
     color: var(--danger);
     display: block;
 }
 
-.form-error-summary ul {
-    margin: var(--spacing-1) 0 0 var(--spacing-4);
+.validation-summary ul {
+    margin: var(--spacing-2) 0 0 var(--spacing-5);
 }
 
-.form-success-summary {
+.validation-summary ul li {
+    color: var(--danger);
+    margin-bottom: var(--spacing-1);
+}
+
+.validation-success {
     background: #e8f5e9;
     border: 1px solid #c8e6c9;
     border-radius: var(--radius-md);
     color: var(--success-dark);
-    padding: var(--spacing-3) var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-5);
     margin-bottom: var(--spacing-4);
+}
+
+/* ----- Character Counter ----- */
+#charCounter {
+    font-size: var(--font-size-sm);
+    transition: color var(--transition-base);
 }
 
 /* ========================================
@@ -1482,7 +1514,6 @@ footer::before {
     }
 }
 
-/* Dynamic list items */
 #dynamicList li {
     animation: fadeInUp 0.3s ease forwards;
 }
@@ -1504,7 +1535,7 @@ footer::before {
     min-width: 60px;
 }
 
-/* Input focus states for Day 9 demo */
+/* Input focus states */
 #charInput:focus,
 #itemInput:focus {
     outline: none;
@@ -1531,29 +1562,9 @@ footer::before {
     background: var(--primary-dark);
 }
 
-/* Card container styles */
-#cardContainer .card {
-    cursor: default;
-    transition: all var(--transition-base);
-    border: 1px solid transparent;
-}
-
-#cardContainer .card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(0, 210, 255, 0.2);
-}
-
 /* ========================================
    DAY 8: FUNCTIONS & EVENTS DEMO STYLES
    ======================================== */
-
-#day8-demo .demo-box {
-    background: var(--white);
-    padding: var(--spacing-5);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-}
 
 #hoverBox {
     transition: all var(--transition-base);
@@ -1677,7 +1688,6 @@ footer::before {
         --spacing-16: 4.5rem;
     }
     
-    /* Navigation - Show on tablet/desktop */
     .mobile-toggle {
         display: none;
     }
@@ -1715,7 +1725,6 @@ footer::before {
         padding: var(--spacing-2) var(--spacing-5) !important;
     }
     
-    /* Hero - Grid Layout */
     .hero .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1736,20 +1745,11 @@ footer::before {
         flex-direction: row;
     }
     
-    /* Cards - Grid */
     .cards-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--gap-xl);
     }
     
-    /* Courses - Grid */
-    .courses-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--gap-xl);
-    }
-    
-    /* Contact - Grid */
     .contact-grid {
         grid-template-columns: 1fr 1fr;
         gap: var(--gap-2xl);
@@ -1820,11 +1820,6 @@ footer::before {
     .social-btn {
         flex: 0 1 auto;
     }
-    
-    /* Day 9 Demo responsive */
-    #day9-demo [style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr 1fr !important;
-    }
 }
 
 /* Desktops (1025px+) */
@@ -1839,11 +1834,6 @@ footer::before {
     }
     
     .cards-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--gap-2xl);
-    }
-    
-    .courses-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--gap-2xl);
     }
@@ -2005,21 +1995,4 @@ footer::before {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* ---------- RESPONSIVE FIX FOR DAY 9 DEMO ---------- */
-@media (max-width: 768px) {
-    #day9-demo [style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr !important;
-    }
-    
-    #day9-demo #cardContainer {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-@media (max-width: 480px) {
-    #day9-demo #cardContainer {
-        grid-template-columns: 1fr !important;
-    }
 }
