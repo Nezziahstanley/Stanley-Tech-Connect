@@ -19,11 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent actual submission
+            event.preventDefault();
             
             console.log('📝 Registration form submitted - validating...');
             
-            // Get all values
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
@@ -31,10 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const confirmPassword = document.getElementById('regConfirmPassword').value;
             const terms = document.getElementById('regTerms').checked;
             
-            // Clear previous errors
             clearValidationErrors();
             
-            // Validation object
             const errors = {};
             let isValid = true;
             
@@ -97,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Show errors or success
             if (isValid) {
                 showValidationSuccess('✅ Registration successful! Welcome to Stanley Tech Connect!');
                 console.log('✅ Registration validated successfully');
@@ -190,14 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            // Clear previous errors
             document.getElementById('loginEmailError').textContent = '';
             document.getElementById('loginPasswordError').textContent = '';
             
             const errors = {};
             let isValid = true;
             
-            // Validate Email
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (email.length === 0) {
                 errors.email = 'Email address is required';
@@ -207,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Validate Password
             if (password.length === 0) {
                 errors.password = 'Password is required';
                 isValid = false;
@@ -233,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Real-time validation for login
         setupRealTimeValidation('loginEmail', 'loginEmailError', 'Please enter a valid email');
         setupRealTimeValidation('loginPassword', 'loginPasswordError', 'Password must be at least 8 characters', 8);
         
@@ -258,13 +250,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const subject = document.getElementById('contactSubject').value.trim();
             const message = document.getElementById('contactMessage').value.trim();
             
-            // Clear previous errors
             clearContactErrors();
             
             const errors = {};
             let isValid = true;
             
-            // Validate Name
             if (name.length === 0) {
                 errors.name = 'Name is required';
                 isValid = false;
@@ -273,7 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Validate Email
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (email.length === 0) {
                 errors.email = 'Email is required';
@@ -283,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Validate Subject
             if (subject.length === 0) {
                 errors.subject = 'Subject is required';
                 isValid = false;
@@ -292,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
             
-            // Validate Message
             if (message.length === 0) {
                 errors.message = 'Message is required';
                 isValid = false;
@@ -315,7 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Real-time character counter for message
         const contactMessage = document.getElementById('contactMessage');
         const charCounter = document.getElementById('charCounter');
         
@@ -343,13 +329,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('\n===== 4. HELPER FUNCTIONS =====');
     
-    // Show validation errors
     function showValidationErrors(errors) {
-        // Remove existing error summary
         const existingSummary = document.querySelector('.validation-summary');
         if (existingSummary) existingSummary.remove();
         
-        // Create error summary
         const summary = document.createElement('div');
         summary.className = 'validation-summary form-error-summary';
         summary.style.cssText = 'margin-bottom: 20px;';
@@ -360,13 +343,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </ul>
         `;
         
-        // Insert at top of form
         const form = document.querySelector('form');
         if (form) {
             form.prepend(summary);
         }
         
-        // Highlight error fields
         Object.keys(errors).forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
@@ -376,7 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Show validation success
     function showValidationSuccess(message) {
         const summary = document.createElement('div');
         summary.className = 'validation-success form-success-summary';
@@ -391,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Clear validation errors
     function clearValidationErrors() {
         document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
         document.querySelectorAll('input, textarea, select').forEach(el => {
@@ -402,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (summary) summary.remove();
     }
     
-    // Real-time validation setup
     function setupRealTimeValidation(inputId, errorId, message, minLength) {
         const input = document.getElementById(inputId);
         const error = document.getElementById(errorId);
@@ -443,7 +421,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Show contact form errors
     function showContactErrors(errors) {
         const fields = {
             name: 'contactNameError',
@@ -469,7 +446,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Clear contact form errors
     function clearContactErrors() {
         ['contactNameError', 'contactEmailError', 'contactSubjectError', 'contactMessageError'].forEach(id => {
             const el = document.getElementById(id);
@@ -488,7 +464,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Password strength checker
     function checkPasswordStrength(password) {
         let score = 0;
         
@@ -515,3 +490,29 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Helper functions registered');
     console.log('\n✅ Day 10: Form Validation Complete!');
 });
+
+// ========================================
+// 5. PASSWORD TOGGLE (Global Function)
+// ========================================
+
+window.togglePasswordVisibility = function(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    
+    const formGroup = field.closest('.form-group') || field.parentElement;
+    const button = formGroup.querySelector('.toggle-password');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        if (button) {
+            button.textContent = '🙈';
+            button.setAttribute('aria-label', 'Hide password');
+        }
+    } else {
+        field.type = 'password';
+        if (button) {
+            button.textContent = '👁️';
+            button.setAttribute('aria-label', 'Show password');
+        }
+    }
+};
