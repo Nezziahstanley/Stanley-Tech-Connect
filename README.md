@@ -1,15 +1,21 @@
-# Stanley Tech Connect - 30-Day Website Building Challenge
+# Stanley Tech Connect - 30-Day Challenge
 
-## Project Overview
-This is a complete web application built during a 30-day challenge to learn full-stack web development using HTML, CSS, JavaScript, PHP, and MySQL.
+Complete full-stack website with user registration, authentication, courses, enrollment, and admin panel.
 
-## Technologies Used
-- HTML5
-- CSS3
-- JavaScript
-- PHP
-- MySQL
-- XAMPP (Local Development)
+## 🛠️ Tech Stack
+- HTML5, CSS3, JavaScript
+- PHP 8+, MySQL
+- XAMPP (Local dev)
 - Git & GitHub
 
-## Project Structure
+## 📋 Requirements
+- XAMPP (Apache + MySQL)
+- PHP 7.4+
+- Modern browser
+- Git (optional)
+
+## 🚀 Installation
+
+### 1. Clone or Download
+```bash
+git clone https://github.com/stanleytechconnect/stanley-tech-connect.git

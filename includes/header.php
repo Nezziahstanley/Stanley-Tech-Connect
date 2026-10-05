@@ -1,19 +1,13 @@
 <?php
-// ========================================
-// HEADER - Reusable Header Component
-// Day 6: Responsive Design - Mobile-First Navigation
-// ========================================
-
-// Get current page name for active link detection
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $current_page = basename($_SERVER['PHP_SELF']);
-
-// Check if user is logged in (for later use)
-// session_start() will be handled in auth.php
 $is_logged_in = isset($_SESSION['user_id']);
 $user_name = $_SESSION['user_name'] ?? '';
 $user_role = $_SESSION['user_role'] ?? '';
+$user_avatar = $_SESSION['user_avatar'] ?? '';
 
-// Define navigation links
 $nav_links = [
     'index.php' => 'Home',
     'about.php' => 'About',
@@ -22,92 +16,63 @@ $nav_links = [
     'contact.php' => 'Contact'
 ];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title ?? 'Stanley Tech Connect'; ?></title>
-    
-    <!-- Favicon -->
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
-    
-    <!-- Meta Description (for SEO) -->
-    <?php if (isset($meta_description)): ?>
-        <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
-    <?php endif; ?>
-    
-    <!-- Additional Head Content -->
-    <?php if (isset($extra_head)): ?>
-        <?php echo $extra_head; ?>
-    <?php endif; ?>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <!-- Logo -->
-            <div class="logo">
-                <a href="index.php" aria-label="Stanley Tech Connect Home">
-                    <img src="assets/images/logo.png" alt="Stanley Tech Connect" onerror="this.style.display='none'">
-                    <span class="brand-text">STC</span>
-                </a>
-            </div>
-            
-            <!-- Mobile Menu Toggle - Visible on mobile only -->
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
-            <!-- Navigation - Hidden on mobile, shown on desktop -->
-            <nav id="mainNav" role="navigation" aria-label="Main Navigation">
-                <ul>
-                    <?php foreach ($nav_links as $page => $label): ?>
-                        <li>
-                            <a href="<?php echo $page; ?>" 
-                               class="<?php echo ($current_page == $page) ? 'active' : ''; ?>">
-                                <?php echo $label; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                    
-                    <?php if ($is_logged_in): ?>
-                        <!-- Logged In Menu -->
-                        <li>
-                            <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="profile.php" class="<?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">
-                                <?php echo htmlspecialchars($user_name); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="logout.php" class="btn-nav">Logout</a>
-                        </li>
-                    <?php else: ?>
-                        <!-- Logged Out Menu -->
-                        <li>
-                            <a href="register.php" class="btn-nav <?php echo ($current_page == 'register.php') ? 'active' : ''; ?>">
-                                Register
-                            </a>
-                        </li>
-                        <li>
-                            <a href="login.php" class="btn-nav <?php echo ($current_page == 'login.php') ? 'active' : ''; ?>">
-                                Login
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <main>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.php">
+                <img src="assets/images/logo.png" alt="STC" onerror="this.style.display='none'">
+                <span class="brand-text">STC</span>
+            </a>
+        </div>
+        
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        
+        <nav id="mainNav">
+            <ul>
+                <?php foreach ($nav_links as $page => $label): ?>
+                    <li>
+                        <a href="<?php echo $page; ?>" class="<?php echo ($current_page == $page) ? 'active' : ''; ?>">
+                            <?php echo $label; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+                
+                <?php if ($is_logged_in): ?>
+                    <li><a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">Dashboard</a></li>
+                    <?php if ($user_role === 'admin'): ?>
+                        <li><a href="admin/index.php">Admin</a></li>
+                    <?php endif; ?>
+                    <li>
+                        <a href="profile.php" class="nav-profile <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">
+                            <?php if ($user_avatar && file_exists($user_avatar)): ?>
+                                <img src="<?php echo htmlspecialchars($user_avatar); ?>" alt="Avatar" class="nav-avatar">
+                            <?php else: ?>
+                                <span class="nav-avatar-placeholder"><?php echo strtoupper(substr($user_name, 0, 1)); ?></span>
+                            <?php endif; ?>
+                            <span class="nav-name"><?php echo htmlspecialchars(explode(' ', $user_name)[0]); ?></span>
+                        </a>
+                    </li>
+                    <li><a href="logout.php" class="btn-nav">Logout</a></li>
+                <?php else: ?>
+                    <li><a href="register.php" class="btn-nav <?php echo ($current_page == 'register.php') ? 'active' : ''; ?>">Register</a></li>
+                    <li><a href="login.php" class="btn-nav <?php echo ($current_page == 'login.php') ? 'active' : ''; ?>">Login</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
