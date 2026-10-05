@@ -2,6 +2,10 @@
 config/database.php
 .env
 
+# Uploaded files (user content)
+assets/uploads/avatars/*
+!assets/uploads/avatars/.htaccess
+
 # XAMPP
 *.log
 *.sql
@@ -9,11 +13,14 @@ config/database.php
 # IDE
 .vscode/
 .idea/
+*.swp
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Backups
 *.bak
 *.backup
+*.old
